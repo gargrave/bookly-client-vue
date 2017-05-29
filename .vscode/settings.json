@@ -1,0 +1,20 @@
+{
+  "emmet.syntaxProfiles": {
+    "vue-html": "html",
+    "vue": "html"
+  },
+  "eslint.autoFixOnSave": true,
+  "eslint.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue"
+  ],
+  "files.associations": {
+    ".netlify": "json"
+  },
+  "files.autoSave": "off",
+  "files.exclude": {
+    "dist": true
+  }
+}
