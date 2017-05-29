@@ -1,19 +1,3 @@
-# Quasar App
+# Bookly (client)
 
-> A Quasar project
-
-## Build Setup
-
-``` bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:8080
-$ quasar dev
-
-# build for production with minification
-$ quasar build
-
-# lint code
-$ quasar lint
-```
+More info to come...
