@@ -1,0 +1,23 @@
+@import 'base';
+
+body {
+  background-color: #eaeae8;
+}
+
+hr.hr-light {
+  @include hr-light();
+}
+
+.clamp-width {
+  max-width: $clampMaxWidth;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.list-view-add-button {
+  width: 100%;
+  max-width: $clampMaxWidth;
+  margin-bottom: $listViewMarginBtm;
+}

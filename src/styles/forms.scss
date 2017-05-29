@@ -1,0 +1,26 @@
+.form-group {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.form-group label {
+  font-size: 1rem;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: .5rem;
+}
+
+.form-group .form-control {
+  display: block;
+  width: 100%;
+  line-height: 1.25;
+}
+
+.form-group > .form-error {
+  font-size: .8rem;
+  color: $errTextColor;
+}
+
+.apiError {
+  color: $errTextColor;
+}

@@ -12,6 +12,8 @@ import Quasar from 'quasar'
 import router from './router'
 import store from './store/store'
 
+import './styles/index.scss'
+
 Vue.use(Quasar) // Install Quasar Framework
 
 Quasar.start(() => {

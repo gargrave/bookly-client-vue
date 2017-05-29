@@ -1,0 +1,28 @@
+.card {
+  max-width: $clampMaxWidth;
+  background-color: #fdfdfd;
+}
+
+.card > .card-content hr {
+  @include hr-light();
+}
+
+.card > .card-content p {
+  margin: 0 0 .6rem;
+}
+
+.list-view-card {
+  margin-bottom: $listViewMarginBtm !important;
+}
+
+.list-view-card > .card-content {
+  padding: 4px 14px;
+}
+
+.list-view-card > .card-content p {
+  margin: 0 0 .4rem;
+}
+
+.list-view-card > .card-content .list-view-card-title {
+  margin: .5rem 0 .1rem;
+}
