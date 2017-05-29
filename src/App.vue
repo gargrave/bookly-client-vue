@@ -1,15 +1,35 @@
 <template>
-  <!-- Don't drop "q-app" class -->
   <div id="q-app">
-    <router-view></router-view>
+    <q-layout>
+
+      <div slot="header">
+        <app-title-bar @toggleDrawer="toggleDrawer">
+        </app-title-bar>
+      </div>
+
+      <app-side-nav ref="sideNav"></app-side-nav>
+
+      <router-view></router-view>
+
+    </q-layout>
   </div>
 </template>
 
 <script>
-/*
- * Root component
- */
-export default {}
-</script>
+import SideNav from './components/layout/SideNav'
+import TitleBar from './components/layout/TitleBar'
 
-<style></style>
+export default {
+  components: {
+    appSideNav: SideNav,
+    appTitleBar: TitleBar
+  },
+
+  methods: {
+    // fowards the 'open()' call to the child drawer
+    toggleDrawer () {
+      this.$refs.sideNav.open()
+    }
+  }
+}
+</script>

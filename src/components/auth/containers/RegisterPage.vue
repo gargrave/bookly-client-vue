@@ -5,7 +5,7 @@
       <div class="card">
 
         <div class="card-title bg-primary text-white">
-          Bookly
+          Register Page
         </div><!-- /card-title -->
 
         <div class="card-content">

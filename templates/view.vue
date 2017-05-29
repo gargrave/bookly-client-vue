@@ -1,20 +1,25 @@
 <template>
-  <!-- root node required -->
-  <div>
-    <!-- your content -->
-    <div class="layout-padding">
-      <!-- if you want automatic padding -->
-    </div>
-  </div>
+  <div class="layout-view">
+    <div class="row justify-center">
+
+      <div class="card">
+
+        <div class="card-title bg-primary text-white">
+          New Page
+        </div><!-- /card-title -->
+
+        <div class="card-content">
+        </div><!-- /card-content -->
+
+      </div><!-- /card -->
+
+    </div><!-- /row -->
+  </div><!-- /layout-view -->
 </template>
 
 <script>
 export default {
-  data () {
-    return {}
-  }
+  data: () => ({
+  })
 }
 </script>
-
-<style>
-</style>

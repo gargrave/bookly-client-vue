@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import { localUrls, routes } from './globals/urls'
+
+import AccountDetailPage from './components/auth/containers/AccountDetailPage'
+import RegisterPage from './components/auth/containers/RegisterPage'
+import LoginPage from './components/auth/containers/LoginPage'
+
 Vue.use(VueRouter)
 
 function load (component) {
@@ -21,6 +27,25 @@ export default new VueRouter({
    */
 
   routes: [
+    /* ============================================
+     = Auth routes
+     ============================================= */
+    {
+      path: localUrls.login,
+      component: LoginPage,
+      name: routes.auth.login
+    },
+    {
+      path: localUrls.account,
+      component: AccountDetailPage,
+      name: routes.auth.detail
+    },
+    {
+      path: localUrls.accountCreate,
+      component: RegisterPage,
+      name: routes.auth.create
+    },
+
     { path: '/', component: load('Index') }, // Default
     { path: '*', component: load('Error404') } // Not found
   ]
