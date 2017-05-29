@@ -1,6 +1,6 @@
 import env from './env'
 
-const DEV_API_ROOT_URL = 'http://localhost:8000'
+const DEV_API_ROOT_URL = 'http://localhost:3030'
 const STAGING_API_ROOT_URL = ''
 const PROD_API_ROOT_URL = ''
 
