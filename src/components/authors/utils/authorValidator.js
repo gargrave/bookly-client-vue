@@ -36,12 +36,12 @@ export function areEqual (a, b) {
   }
 
   // compare 'firstName' prop
-  if ((a.title.firstName() !== b.title.firstName())) {
+  if ((a.firstName.trim() !== b.firstName.trim())) {
     match = false
   }
 
   // compare 'lastName' prop
-  if ((a.title.lastName() !== b.title.lastName())) {
+  if ((a.lastName.trim() !== b.lastName.trim())) {
     match = false
   }
 
