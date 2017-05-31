@@ -7,6 +7,10 @@ import AccountDetailPage from './components/auth/containers/AccountDetailPage'
 import RegisterPage from './components/auth/containers/RegisterPage'
 import LoginPage from './components/auth/containers/LoginPage'
 
+import AuthorCreatePage from './components/authors/containers/AuthorCreatePage'
+import AuthorDetailPage from './components/authors/containers/AuthorDetailPage'
+import AuthorsListPage from './components/authors/containers/AuthorsListPage'
+
 Vue.use(VueRouter)
 
 function load (component) {
@@ -44,6 +48,25 @@ export default new VueRouter({
       path: localUrls.accountCreate,
       component: RegisterPage,
       name: routes.auth.create
+    },
+
+    /* ============================================
+     = Authors routes
+     ============================================= */
+    {
+      path: localUrls.authorCreate,
+      component: AuthorCreatePage,
+      name: routes.authors.create
+    },
+    {
+      path: localUrls.authorDetail,
+      component: AuthorDetailPage,
+      name: routes.authors.detail
+    },
+    {
+      path: localUrls.authorsList,
+      component: AuthorsListPage,
+      name: routes.authors.list
     },
 
     { path: '/', component: load('Index') }, // Default

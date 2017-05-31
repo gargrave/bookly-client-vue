@@ -22,7 +22,7 @@ export default {
 
       axios(request)
         .then(res => {
-          const authors = res.data.results
+          const authors = res.data.data
           commit(AUTHORS.FETCH_SUCCESS, authors)
           commit(AUTHORS.AJAX_END)
           resolve()

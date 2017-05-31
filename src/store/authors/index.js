@@ -46,7 +46,7 @@ export default {
     [AUTHORS.FETCH_SUCCESS] (state, authors) {
       state.authors = []
       for (let author of authors) {
-        state.games.push(AuthorModel.fromAPI(author))
+        state.authors.push(AuthorModel.fromAPI(author))
       }
       sortAuthors(state.authors)
     },
