@@ -168,8 +168,6 @@ export default {
 
     /** Gracefully handles any error messages from the API */
     onError (err) {
-      console.log('err')
-      console.log(err)
       this.apiError = err.message || ''
       this.working = false
       this.initializing = false
@@ -192,20 +190,16 @@ export default {
       .then(() => {
         const authorId = this.$route.params.id
         if (!authorId) {
-          console.log('no id')
           this.$router.push(localUrls.authorsList)
         } else {
           this.findAuthor(authorId)
             .then(authorRes => {
               this.model = cloneDeep(authorRes)
               this.originalModel = cloneDeep(authorRes)
-              console.log('this.originalModel:')
-              console.log(this.originalModel)
               this.working = false
               this.initializing = false
               Loading.hide()
             }, () => {
-              console.log('no instance')
               // if no valid instance, return to the List view
               this.$router.push(localUrls.authorsList)
             })
