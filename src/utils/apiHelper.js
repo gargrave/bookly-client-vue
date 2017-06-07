@@ -21,7 +21,7 @@ export default {
     }
 
     if (authToken) {
-      req.headers['Authorization'] = `Token ${authToken}`
+      req.headers['Authorization'] = `${authToken}`
     }
 
     return req
@@ -41,7 +41,7 @@ export default {
     }
 
     if (authToken) {
-      req.headers['Authorization'] = `Token ${authToken}`
+      req.headers['Authorization'] = `${authToken}`
     }
 
     return req
