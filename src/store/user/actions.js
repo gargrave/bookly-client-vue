@@ -143,21 +143,25 @@ export default {
    */
   checkForStoredLogin ({ getters, dispatch, commit }) {
     return new Promise((resolve, reject) => {
-      let storedToken = localStorage.getItem('authToken')
-      if (storedToken) {
-        if (getters.userData.id) {
-          resolve(getters.userData)
-        } else {
-          dispatch('loadUserDataFromToken', storedToken)
-            .then(res => {
-              resolve(res)
-            }, err => {
-              reject(err)
-            })
-        }
-      } else {
-        reject(cleanErrors.EMPTY)
-      }
+      localStorage.setItem('authToken', 'dummyToken')
+      commit(USER.LOGIN, 'dummyToken')
+      commit(USER.AJAX_END)
+      resolve()
+      // let storedToken = localStorage.getItem('authToken')
+      // if (storedToken) {
+      //   if (getters.userData.id) {
+      //     resolve(getters.userData)
+      //   } else {
+      //     dispatch('loadUserDataFromToken', storedToken)
+      //       .then(res => {
+      //         resolve(res)
+      //       }, err => {
+      //         reject(err)
+      //       })
+      //   }
+      // } else {
+      //   reject(cleanErrors.EMPTY)
+      // }
     })
   }
 }

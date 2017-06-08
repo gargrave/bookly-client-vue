@@ -5,6 +5,7 @@ import { apiUrls } from '../../globals/urls'
 import apiHelper from '../../utils/apiHelper'
 import { AUTHORS } from '../mutation-types'
 
+let TEMP_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJxd2VyQGVtYWlsLmNvbSIsImlhdCI6MTQ5Njg3Mjc5MCwiZXhwIjoxNDk2ODc2MzkwfQ.aOAokQqp_ZM7bhOfbhFZSenRgCSCjaTY_nSm7owrDNI'
 export default {
   /**
    * Fetches the full list of user's Authors from the API.
@@ -17,12 +18,12 @@ export default {
         reject(cleanErrors.INVALID_TOKEN)
       }
 
-      const request = apiHelper.axGet(apiUrls.authors, authToken)
+      const request = apiHelper.axGet(apiUrls.authors, TEMP_TOKEN)
       commit(AUTHORS.AJAX_BEGIN)
 
       axios(request)
         .then(res => {
-          const authors = res.data.data
+          const authors = res.data
           commit(AUTHORS.FETCH_SUCCESS, authors)
           commit(AUTHORS.AJAX_END)
           resolve()
@@ -67,7 +68,7 @@ export default {
         reject(cleanErrors.INVALID_TOKEN)
       }
 
-      const request = apiHelper.axGet(`${apiUrls.authors}${id}`, authToken)
+      const request = apiHelper.axGet(`${apiUrls.authors}${id}`, TEMP_TOKEN)
       commit(AUTHORS.AJAX_BEGIN)
 
       axios(request)
@@ -120,7 +121,7 @@ export default {
         reject(cleanErrors.INVALID_TOKEN)
       }
 
-      const request = apiHelper.axPost(apiUrls.authors, author, authToken)
+      const request = apiHelper.axPost(apiUrls.authors, author, TEMP_TOKEN)
       commit(AUTHORS.AJAX_BEGIN)
 
       axios(request)
@@ -148,7 +149,7 @@ export default {
       }
 
       const request = apiHelper.axPut(
-        `${apiUrls.authors}${author.id}`, author, authToken)
+        `${apiUrls.authors}${author.id}`, author, TEMP_TOKEN)
       commit(AUTHORS.AJAX_BEGIN)
 
       axios(request)
@@ -176,7 +177,7 @@ export default {
       }
 
       const request = apiHelper.axDelete(
-        `${apiUrls.authors}${authorId}`, {}, authToken)
+        `${apiUrls.authors}${authorId}`, {}, TEMP_TOKEN)
       commit(AUTHORS.AJAX_BEGIN)
 
       axios(request)

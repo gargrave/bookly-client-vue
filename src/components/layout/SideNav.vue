@@ -13,16 +13,18 @@
         <hr>
         <div class="list-label">Navigation</div>
 
+        <!--
         <q-drawer-link
           icon="games"
-          :to="{ name: routes.games.list }">
-          My Games
+          :to="{ name: routes.books.list }">
+          My Books
         </q-drawer-link>
+        -->
 
         <q-drawer-link
           icon="radio"
-          :to="{ name: routes.platforms.list }">
-          My Platforms
+          :to="{ name: routes.authors.list }">
+          My Authors
         </q-drawer-link>
       </div>
 
@@ -30,11 +32,13 @@
       <div class="list-label">Account</div>
 
       <div v-if="isLoggedIn">
+        <!--
         <q-drawer-link
           icon="account_circle"
           :to="{ name: routes.auth.detail }">
           My Account
         </q-drawer-link>
+        -->
       </div>
 
       <div v-else>
