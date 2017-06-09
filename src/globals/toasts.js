@@ -19,5 +19,9 @@ export default {
 
   deleteConfirm (name = 'Entry') {
     Toast.create.positive(`${name} deleted!`)
+  },
+
+  success (action) {
+    Toast.create.info(action ? `${action} successful!` : 'Success!')
   }
 }
