@@ -32,13 +32,11 @@
       <div class="list-label">Account</div>
 
       <div v-if="isLoggedIn">
-        <!--
         <q-drawer-link
           icon="account_circle"
           :to="{ name: routes.auth.detail }">
           My Account
         </q-drawer-link>
-        -->
       </div>
 
       <div v-else>
