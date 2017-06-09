@@ -77,8 +77,8 @@ export default {
         id: user.pk,
         username: user.username,
         email: user.email,
-        dateJoined: user.date_joined,
-        lastLogin: user.last_login
+        created: user.created_at,
+        updated: user.updated_at
       }
       state.user = userData
     },
