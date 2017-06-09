@@ -22,7 +22,7 @@ export default {
 
       axios(request)
         .then(res => {
-          const authToken = res.data.key
+          const authToken = res.data.token
 
           if (authToken) {
             commit(USER.LOGIN, authToken)
@@ -48,9 +48,9 @@ export default {
   logout ({ commit }) {
     return new Promise((resolve, reject) => {
       commit(USER.LOGOUT)
-      commit(PROFILE.LOGOUT)
+      // commit(PROFILE.LOGOUT)
       commit(AUTHORS.CLEAR_ALL)
-      commit(BOOKS.CLEAR_ALL)
+      // commit(BOOKS.CLEAR_ALL)
       resolve()
     })
   },
@@ -66,7 +66,7 @@ export default {
 
       axios(request)
         .then(res => {
-          const authToken = res.data.key
+          const authToken = res.data.token
 
           if (authToken) {
             commit(USER.LOGIN, authToken)
@@ -95,7 +95,7 @@ export default {
   loadUserDataFromToken ({ dispatch, commit }, authToken) {
     // GET request to User API endpoint
     function userReq () {
-      const request = apiHelper.axGet(apiUrls.user, authToken)
+      const request = apiHelper.axGet(apiUrls.users, authToken)
       return axios(request)
     }
 
@@ -107,23 +107,25 @@ export default {
 
     return new Promise((resolve, reject) => {
       commit(USER.AJAX_BEGIN)
-      commit(PROFILE.AJAX_BEGIN)
+      // commit(PROFILE.AJAX_BEGIN)
 
-      axios.all([userReq(), profileReq()])
+      // axios.all([userReq(), profileReq()])
+      axios.all([userReq()])
         .then(res => {
           const userData = res[0].data
-          const profile = res[1].data
+          // const profile = res[1].data
 
-          if (userData.pk && profile.pk) {
+          // if (userData.id && profile.id) {
+          if (userData.id) {
             commit(USER.LOGIN, authToken)
             commit(USER.FETCH_SUCCESS, userData)
-            commit(PROFILE.FETCH_SUCCESS, profile)
+            // commit(PROFILE.FETCH_SUCCESS, profile)
             commit(USER.AJAX_END)
-            commit(PROFILE.AJAX_END)
+            // commit(PROFILE.AJAX_END)
             resolve()
           } else {
             commit(USER.AJAX_END)
-            commit(PROFILE.AJAX_END)
+            // commit(PROFILE.AJAX_END)
             return dispatch('logout')
           }
         })
@@ -131,7 +133,7 @@ export default {
           // if error, reject with error message
           dispatch('logout')
           commit(USER.AJAX_END)
-          commit(PROFILE.AJAX_END)
+          // commit(PROFILE.AJAX_END)
           reject(parseError(err))
         })
     })
@@ -143,25 +145,21 @@ export default {
    */
   checkForStoredLogin ({ getters, dispatch, commit }) {
     return new Promise((resolve, reject) => {
-      localStorage.setItem('authToken', 'dummyToken')
-      commit(USER.LOGIN, 'dummyToken')
-      commit(USER.AJAX_END)
-      resolve()
-      // let storedToken = localStorage.getItem('authToken')
-      // if (storedToken) {
-      //   if (getters.userData.id) {
-      //     resolve(getters.userData)
-      //   } else {
-      //     dispatch('loadUserDataFromToken', storedToken)
-      //       .then(res => {
-      //         resolve(res)
-      //       }, err => {
-      //         reject(err)
-      //       })
-      //   }
-      // } else {
-      //   reject(cleanErrors.EMPTY)
-      // }
+      let storedToken = localStorage.getItem('authToken')
+      if (storedToken) {
+        if (getters.userData.id) {
+          resolve(getters.userData)
+        } else {
+          dispatch('loadUserDataFromToken', storedToken)
+            .then(res => {
+              resolve(res)
+            }, err => {
+              reject(err)
+            })
+        }
+      } else {
+        reject(cleanErrors.EMPTY)
+      }
     })
   }
 }
