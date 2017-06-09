@@ -40,11 +40,11 @@ export let routes = {
 // URLs for AJAX calls to the API
 export let apiUrls = {
   // auth URLS
-  login: `${apiRoot}/rest-auth/login/`,
-  logout: `${apiRoot}/rest-auth/logout/`,
-  register: `${apiRoot}/rest-auth/registration/`,
-  user: `${apiRoot}/rest-auth/user/`,
-  profiles: `${apiRoot}/rest-auth/user/profile/`,
+  register: `${restApiRoot}/auth/register/`,
+  login: `${restApiRoot}/auth/login/`,
+  logout: `${restApiRoot}/auth/logout/`,
+  users: `${restApiRoot}/auth/users/`,
+  profiles: `${restApiRoot}/auth/profiles/`,
   // REST resource URLS
   authors: `${restApiRoot}/authors/`,
   books: `${restApiRoot}/books/`
