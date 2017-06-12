@@ -6,7 +6,7 @@
         <div class="card">
 
           <div class="card-title bg-primary text-white">
-            Create a Author
+            Create an Author
           </div><!-- /card-title -->
 
           <div class="card-content">
