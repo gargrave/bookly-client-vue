@@ -3,13 +3,18 @@ import { cloneDeep } from 'lodash'
 export default {
   empty () {
     return {
-      title: ''
+      title: '',
+      author: {
+        id: -1,
+        name: ''
+      }
     }
   },
 
   toAPI (data) {
     let payload = {
-      title: data.title || ''
+      title: data.title || '',
+      authorId: data.author.id
     }
 
     if (data.id) {

@@ -6,7 +6,7 @@ import actions from './actions'
 
 function sortBooks (books) {
   books.sort((a, b) => {
-    return a.lastName > b.lastName ? 1 : -1
+    return a.title > b.title ? 1 : -1
   })
 }
 
