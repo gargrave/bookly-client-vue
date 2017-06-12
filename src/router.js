@@ -11,6 +11,10 @@ import AuthorCreatePage from './components/authors/containers/AuthorCreatePage'
 import AuthorDetailPage from './components/authors/containers/AuthorDetailPage'
 import AuthorsListPage from './components/authors/containers/AuthorsListPage'
 
+import BookCreatePage from './components/books/containers/BookCreatePage'
+import BookDetailPage from './components/books/containers/BookDetailPage'
+import BooksListPage from './components/books/containers/BooksListPage'
+
 Vue.use(VueRouter)
 
 function load (component) {
@@ -67,6 +71,25 @@ export default new VueRouter({
       path: localUrls.authorsList,
       component: AuthorsListPage,
       name: routes.authors.list
+    },
+
+    /* ============================================
+     = Books routes
+     ============================================= */
+    {
+      path: localUrls.bookCreate,
+      component: BookCreatePage,
+      name: routes.books.create
+    },
+    {
+      path: localUrls.bookDetail,
+      component: BookDetailPage,
+      name: routes.books.detail
+    },
+    {
+      path: localUrls.booksList,
+      component: BooksListPage,
+      name: routes.books.list
     },
 
     { path: '/', component: load('Index') }, // Default

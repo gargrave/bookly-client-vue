@@ -13,13 +13,11 @@
         <hr>
         <div class="list-label">Navigation</div>
 
-        <!--
         <q-drawer-link
           icon="games"
           :to="{ name: routes.books.list }">
           My Books
         </q-drawer-link>
-        -->
 
         <q-drawer-link
           icon="radio"
