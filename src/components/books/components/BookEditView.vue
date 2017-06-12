@@ -5,7 +5,9 @@
       :working="working"
       :errors="errors"
       :book="book"
+      :authors="authors"
       :handleInput="handleInput"
+      :handleSelect="handleSelect"
       @submitted="onFormSubmitted"
       @cancelled="onFormCancelled">
     </app-book-form>
@@ -13,6 +15,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import BookForm from '../components/BookForm'
 
 export default {
@@ -30,7 +34,15 @@ export default {
     // the Book object being edited
     book: { type: Object, required: true },
     // callback for text input changing
-    handleInput: { type: Function, required: true }
+    handleInput: { type: Function, required: true },
+    // callback for text select changing
+    handleSelect: { type: Function, required: true }
+  },
+
+  computed: {
+    ...mapGetters([
+      'authors'
+    ])
   },
 
   methods: {

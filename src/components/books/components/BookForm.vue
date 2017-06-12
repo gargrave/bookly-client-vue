@@ -11,6 +11,22 @@
       :handleInput="handleInput">
     </app-text-input>
 
+    <!-- author selector -->
+    <div class="form-group">
+      <label for="authors">Author</label>
+      <q-select
+        placeholder="Select Author"
+        class="form-control"
+        :class="{ 'has-error': errors.author }"
+        name="author"
+        type="list"
+        :value="book.author"
+        :options="authorsForSelect"
+        @input="handleSelect">
+      </q-select>
+      <p class="form-error">{{ errors.author }}</p>
+    </div>
+
     <!-- 'submit' button -->
     <button
       class="positive"
@@ -43,8 +59,25 @@ export default {
     errors: { type: Object, required: true },
     // the book (if any) being edited
     book: { type: Object, required: true },
+    // list of available authors
+    authors: { type: Array, required: true },
     // callback for text input changing
-    handleInput: { type: Function, required: true }
+    handleInput: { type: Function, required: true },
+    // callback for text select changing
+    handleSelect: { type: Function, required: true }
+  },
+
+  computed: {
+    /* builds the authors list in the format required by q-select */
+    authorsForSelect () {
+      return this.authors.map((p) => {
+        return {
+          key: p.id,
+          label: `${p.firstName} ${p.lastName}`,
+          value: p.id
+        }
+      })
+    }
   }
 }
 </script>

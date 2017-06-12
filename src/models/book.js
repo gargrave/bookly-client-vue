@@ -11,6 +11,13 @@ export default {
     }
   },
 
+  emptyErrors () {
+    return {
+      title: '',
+      author: ''
+    }
+  },
+
   toAPI (data) {
     let payload = {
       title: data.title || '',

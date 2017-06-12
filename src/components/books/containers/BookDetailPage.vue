@@ -16,6 +16,7 @@
             :book="model"
             :errors="errors"
             :handleInput="handleInput"
+            :handleSelect="handleSelect"
             @onFormSubmitted="onFormSubmitted"
             @onFormCancelled="onFormCancelled">
           </app-book-edit-view>
@@ -82,7 +83,7 @@ export default {
     // the untouched copy of the original instance
     originalModel: BookModel.empty(),
     // local validation errors
-    errors: BookModel.empty()
+    errors: BookModel.emptyErrors()
   }),
 
   computed: {
@@ -101,6 +102,11 @@ export default {
       if (key in this.model) {
         this.model[key] = e.target.value
       }
+    },
+
+    /** callback for handling changes to select fields */
+    handleSelect (value) {
+      this.model.author = value
     },
 
     /** Callback for clicking the 'edit' button; simply change to 'editing' state. */

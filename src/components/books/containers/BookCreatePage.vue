@@ -15,7 +15,9 @@
               :working="working"
               :errors="errors"
               :book="model"
+              :authors="authors"
               :handleInput="handleInput"
+              :handleSelect="handleSelect"
               @submitted="onFormSubmitted"
               @cancelled="onFormCancelled">
             </app-book-form>
@@ -29,7 +31,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { Loading } from 'quasar'
 
 import toasts from '../../../globals/toasts'
@@ -53,8 +55,14 @@ export default {
     // model for new instance
     model: BookModel.empty(),
     // local validation errors
-    errors: BookModel.empty()
+    errors: BookModel.emptyErrors()
   }),
+
+  computed: {
+    ...mapGetters([
+      'authors'
+    ])
+  },
 
   methods: {
     handleInput (e) {
@@ -62,6 +70,11 @@ export default {
       if (key in this.model) {
         this.model[key] = e.target.value
       }
+    },
+
+    /** callback for handling changes to select fields */
+    handleSelect (value) {
+      this.model.author = value
     },
 
     /** Callback for 'submit' event from the form; attempt to create a new instance on the server. */
