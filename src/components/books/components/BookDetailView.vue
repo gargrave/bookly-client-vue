@@ -1,6 +1,7 @@
 <template>
   <div class="card-content">
     <p><strong>Name:</strong> {{ book.title }}</p>
+    <p><strong>Author:</strong> {{ book.author.name }}</p>
 
     <hr>
     <p><strong>Added on:</strong> {{ addedOnString }}</p>

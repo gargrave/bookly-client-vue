@@ -5,6 +5,7 @@
 
     <div class="card-content">
       <h6>{{ book.title }}</h6>
+      <p class="card-author">{{ book.author.name }}</p>
     </div><!-- /card-content -->
 
   </div><!-- /card -->
@@ -18,3 +19,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.card-author {
+  color: #6f6f6f;
+  font-size: .9rem;
+}
+</style>
