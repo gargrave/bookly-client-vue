@@ -39,9 +39,8 @@ import { localUrls } from '../../../globals/urls'
 import BookModel from '../../../models/book'
 import { validate } from '../utils/bookValidator'
 
-import ContainerMixin from '../../mixins/ContainerMixin'
 import BookForm from '../components/BookForm'
-import BookMixin from '../mixins/BookMixin'
+import BookContainerMixin from '../mixins/BookContainerMixin'
 
 export default {
   components: {
@@ -49,8 +48,7 @@ export default {
   },
 
   mixins: [
-    ContainerMixin,
-    BookMixin
+    BookContainerMixin
   ],
 
   data: () => ({
@@ -94,8 +92,7 @@ export default {
           .then(res => {
             toasts.createConfirm('Book')
             this.$router.push(`${localUrls.booksList}/${res.id}`)
-            this.working = false
-            Loading.hide()
+            this.exitWorkingState()
           }, err => { this.onError(err) })
       }
     },
@@ -105,15 +102,7 @@ export default {
       this.$router.push(localUrls.booksList)
     },
 
-    /** Handle any errors received from calls to the API */
-    onError (err) {
-      this.apiError = err.message || ''
-      this.working = false
-      Loading.hide()
-    },
-
     ...mapActions([
-      'checkForStoredLogin',
       'createBook'
     ])
   }

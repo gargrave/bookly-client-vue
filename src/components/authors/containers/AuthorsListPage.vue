@@ -22,7 +22,7 @@
             v-for="author in authors">
             <app-author-card
               :author="author"
-              @click="onAuthorClick">
+              @click="onInstanceClick">
             </app-author-card>
           </div><!-- /row -->
         </section>
@@ -40,16 +40,16 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import { localUrls } from '../../../globals/urls'
-
 import EmptyListCard from '../../common/EmptyListCard'
 import InitializingCard from '../../common/InitializingCard'
+import ListViewMixin from '../../mixins/ListViewMixin'
 import AuthorCard from '../components/AuthorListCard'
 import AuthorContainerMixin from '../mixins/AuthorContainerMixin'
 
 export default {
   mixins: [
-    AuthorContainerMixin
+    AuthorContainerMixin,
+    ListViewMixin
   ],
 
   components: {
@@ -57,6 +57,10 @@ export default {
     appInitializingCard: InitializingCard,
     appAuthorCard: AuthorCard
   },
+
+  data: () => ({
+    routeName: 'authors'
+  }),
 
   computed: {
     isWorking () {
@@ -67,20 +71,6 @@ export default {
       'authorsAjaxPending',
       'authors'
     ])
-  },
-
-  methods: {
-    /** Callback for 'add new author' button click event */
-    onAddClick () {
-      this.$router.push(localUrls.authorCreate)
-    },
-
-    /** Callback for clicking on a Author card: routes to that Author's details page. */
-    onAuthorClick ({ id }, event) {
-      if (Number.isInteger(id)) {
-        this.$router.push(`${localUrls.authorsList}/${id}`)
-      }
-    }
   }
 }
 </script>

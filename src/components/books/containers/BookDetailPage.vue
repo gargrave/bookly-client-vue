@@ -61,10 +61,9 @@ import { localUrls } from '../../../globals/urls'
 import BookModel from '../../../models/book'
 import { areEqual, validate } from '../utils/bookValidator'
 
-import ContainerMixin from '../../mixins/ContainerMixin'
 import BookDetailView from '../components/BookDetailView'
 import BookEditView from '../components/BookEditView'
-import BookMixin from '../mixins/BookMixin'
+import BookContainerMixin from '../mixins/BookContainerMixin'
 
 export default {
   components: {
@@ -73,8 +72,7 @@ export default {
   },
 
   mixins: [
-    ContainerMixin,
-    BookMixin
+    BookContainerMixin
   ],
 
   data: () => ({
@@ -172,14 +170,6 @@ export default {
       this.editing = false
     },
 
-    /** Gracefully handles any error messages from the API */
-    onError (err) {
-      this.apiError = err.message || ''
-      this.working = false
-      this.initializing = false
-      Loading.hide()
-    },
-
     /**
      * Custom hook to attempt to load the information for the specified book (by ID).
      * If the Book is not found, redirect back to the Books list view.
@@ -202,7 +192,6 @@ export default {
     },
 
     ...mapActions([
-      'checkForStoredLogin',
       'findBook',
       'updateBook',
       'deleteBook'

@@ -22,7 +22,7 @@
             v-for="book in books">
             <app-book-card
               :book="book"
-              @click="onBookClick">
+              @click="onInstanceClick">
             </app-book-card>
           </div><!-- /row -->
         </section>
@@ -38,27 +38,29 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-
-import { localUrls } from '../../../globals/urls'
+import { mapGetters } from 'vuex'
 
 import EmptyListCard from '../../common/EmptyListCard'
 import InitializingCard from '../../common/InitializingCard'
-import ContainerMixin from '../../mixins/ContainerMixin'
+import ListViewMixin from '../../mixins/ListViewMixin'
 import BookCard from '../components/BookListCard'
-import BookMixin from '../mixins/BookMixin'
+import BookContainerMixin from '../mixins/BookContainerMixin'
 
 export default {
+  mixins: [
+    BookContainerMixin,
+    ListViewMixin
+  ],
+
   components: {
     appEmptyListCard: EmptyListCard,
     appInitializingCard: InitializingCard,
     appBookCard: BookCard
   },
 
-  mixins: [
-    ContainerMixin,
-    BookMixin
-  ],
+  data: () => ({
+    routeName: 'books'
+  }),
 
   computed: {
     isWorking () {
@@ -68,25 +70,6 @@ export default {
     ...mapGetters([
       'booksAjaxPending',
       'books'
-    ])
-  },
-
-  methods: {
-    /** Callback for 'add new book' button click event */
-    onAddClick () {
-      this.$router.push(localUrls.bookCreate)
-    },
-
-    /** Callback for clicking on a Book card: routes to that Book's details page. */
-    onBookClick ({ id }, event) {
-      if (Number.isInteger(id)) {
-        this.$router.push(`${localUrls.booksList}/${id}`)
-      }
-    },
-
-    ...mapActions([
-      'checkForStoredLogin',
-      'getCachedOrFetchBooks'
     ])
   }
 }

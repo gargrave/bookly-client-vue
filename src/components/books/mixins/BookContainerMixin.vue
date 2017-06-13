@@ -3,7 +3,13 @@ import { mapActions } from 'vuex'
 
 import { localUrls } from '../../../globals/urls'
 
+import ContainerMixin from '../../mixins/ContainerMixin'
+
 export default {
+  mixins: [
+    ContainerMixin
+  ],
+
   methods: {
     /**
      * Queries the store to update the local list of Books
