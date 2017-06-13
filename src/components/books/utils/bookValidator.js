@@ -7,11 +7,18 @@ import BookModel from '../../../models/book'
 export function validate (data) {
   let valid = true
   let testData = cloneDeep(data)
-  let errors = BookModel.empty()
+  let errors = BookModel.emptyErrors()
 
   // validate title -> required
   if (validator.isEmpty(testData.title)) {
     errors.title = valErrs.required
+    valid = false
+  }
+
+  // validate authorId -> required
+  if (validator.isEmpty(testData.authorId.toString()) ||
+      testData.authorId < 0) {
+    errors.author = valErrs.required
     valid = false
   }
 
