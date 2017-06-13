@@ -63,12 +63,15 @@ import { areEqual, validate } from '../utils/bookValidator'
 
 import BookDetailView from '../components/BookDetailView'
 import BookEditView from '../components/BookEditView'
+import BookMixin from '../mixins/BookMixin'
 
 export default {
   components: {
     appBookDetailView: BookDetailView,
     appBookEditView: BookEditView
   },
+
+  mixins: [BookMixin],
 
   data: () => ({
     initializing: true,
@@ -131,8 +134,7 @@ export default {
           .then(() => {
             toasts.deleteConfirm('Book')
             this.$router.push(localUrls.booksList)
-            this.working = false
-            Loading.hide()
+            this.exitWorkingState()
           }, err => { this.onError(err) })
       })
     },
@@ -152,8 +154,7 @@ export default {
           .then(() => {
             toasts.updateConfirm('Book')
             this.$router.push(localUrls.booksList)
-            this.working = false
-            Loading.hide()
+            this.exitWorkingState()
           }, err => { this.onError(err) })
       } else {
         if (!hasChanges) {
@@ -180,37 +181,33 @@ export default {
       Loading.hide()
     },
 
+    /**
+     * Custom hook to attempt to load the information for the specified book (by ID).
+     * If the Book is not found, redirect back to the Books list view.
+     */
+    afterCreatedLoggedIn () {
+      const bookId = this.$route.params.id
+      if (!bookId) {
+        this.$router.push(localUrls.booksList)
+      } else {
+        this.findBook(bookId)
+          .then(bookRes => {
+            this.model = cloneDeep(bookRes)
+            this.originalModel = cloneDeep(bookRes)
+            this.exitWorkingState()
+          }, () => {
+            // if no valid instance, return to the List view
+            this.$router.push(localUrls.booksList)
+          })
+      }
+    },
+
     ...mapActions([
       'checkForStoredLogin',
       'findBook',
       'updateBook',
       'deleteBook'
     ])
-  },
-
-  created () {
-    this.working = true
-    Loading.show({ message: 'Loading...' })
-
-    this.checkForStoredLogin()
-      .then(() => {
-        const bookId = this.$route.params.id
-        if (!bookId) {
-          this.$router.push(localUrls.booksList)
-        } else {
-          this.findBook(bookId)
-            .then(bookRes => {
-              this.model = cloneDeep(bookRes)
-              this.originalModel = cloneDeep(bookRes)
-              this.working = false
-              this.initializing = false
-              Loading.hide()
-            }, () => {
-              // if no valid instance, return to the List view
-              this.$router.push(localUrls.booksList)
-            })
-        }
-      }, err => { this.onError(err) })
   }
 }
 </script>

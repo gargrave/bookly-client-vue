@@ -46,6 +46,7 @@ import { localUrls } from '../../../globals/urls'
 import EmptyListCard from '../../common/EmptyListCard'
 import InitializingCard from '../../common/InitializingCard'
 import BookCard from '../components/BookListCard'
+import BookMixin from '../mixins/BookMixin'
 
 export default {
   components: {
@@ -53,6 +54,8 @@ export default {
     appInitializingCard: InitializingCard,
     appBookCard: BookCard
   },
+
+  mixins: [BookMixin],
 
   data: () => ({
     initializing: true,
@@ -74,20 +77,6 @@ export default {
   },
 
   methods: {
-    /** Queries the store to update the local list of Books */
-    rebuildBooksList () {
-      this.apiError = ''
-      this.working = true
-      Loading.show({ message: 'Loading...' })
-
-      this.getCachedOrFetchBooks()
-        .then(() => {
-          this.working = false
-          this.initializing = false
-          Loading.hide()
-        }, err => { this.onError(err) })
-    },
-
     /** Callback for 'add new book' button click event */
     onAddClick () {
       this.$router.push(localUrls.bookCreate)
@@ -102,7 +91,6 @@ export default {
 
     /** Gracefully handles any error messages from the API */
     onError (err) {
-      console.log('err')
       this.apiError = err.message || ''
       this.working = false
       this.initializing = false
@@ -112,20 +100,6 @@ export default {
       'checkForStoredLogin',
       'getCachedOrFetchBooks'
     ])
-  },
-
-  created () {
-    this.working = true
-    Loading.show({ message: 'Loading...' })
-
-    this.checkForStoredLogin()
-      .then(() => {
-        this.rebuildBooksList()
-      }, () => {
-        this.$router.push(localUrls.login)
-        this.working = false
-        Loading.hide()
-      })
   }
 }
 </script>

@@ -40,11 +40,14 @@ import BookModel from '../../../models/book'
 import { validate } from '../utils/bookValidator'
 
 import BookForm from '../components/BookForm'
+import BookMixin from '../mixins/BookMixin'
 
 export default {
   components: {
     appBookForm: BookForm
   },
+
+  mixins: [BookMixin],
 
   data: () => ({
     initializing: true,
@@ -114,20 +117,6 @@ export default {
       'checkForStoredLogin',
       'createBook'
     ])
-  },
-
-  created () {
-    this.working = true
-    Loading.show({ message: 'Loading...' })
-
-    this.checkForStoredLogin()
-      .then(() => {
-        // if logged in, no further action needed
-        this.initializing = false
-        Loading.hide()
-      }, () => {
-        this.$router.push(localUrls.login)
-      })
   }
 }
 </script>
