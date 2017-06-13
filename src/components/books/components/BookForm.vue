@@ -20,7 +20,7 @@
         :class="{ 'has-error': errors.author }"
         name="author"
         type="list"
-        :value="book.author"
+        :value="book.author.id"
         :options="authorsForSelect"
         @input="handleSelect">
       </q-select>

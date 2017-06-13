@@ -74,13 +74,14 @@ export default {
 
     /** callback for handling changes to select fields */
     handleSelect (value) {
-      this.model.author = value
+      this.model.author.id = value
     },
 
     /** Callback for 'submit' event from the form; attempt to create a new instance on the server. */
     onFormSubmitted (value) {
       const book = BookModel.toAPI(this.model)
       const { errors, valid } = validate(book)
+      this.errors = errors
 
       if (valid) {
         this.working = true
@@ -94,8 +95,6 @@ export default {
             this.working = false
             Loading.hide()
           }, err => { this.onError(err) })
-      } else {
-        this.errors = errors
       }
     },
 
