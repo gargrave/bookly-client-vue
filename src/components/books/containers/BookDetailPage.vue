@@ -106,7 +106,7 @@ export default {
 
     /** callback for handling changes to select fields */
     handleSelect (value) {
-      this.model.author = value
+      this.model.author.id = value
     },
 
     /** Callback for clicking the 'edit' button; simply change to 'editing' state. */
