@@ -39,6 +39,7 @@ import { localUrls } from '../../../globals/urls'
 import BookModel from '../../../models/book'
 import { validate } from '../utils/bookValidator'
 
+import ContainerMixin from '../../mixins/ContainerMixin'
 import BookForm from '../components/BookForm'
 import BookMixin from '../mixins/BookMixin'
 
@@ -47,14 +48,12 @@ export default {
     appBookForm: BookForm
   },
 
-  mixins: [BookMixin],
+  mixins: [
+    ContainerMixin,
+    BookMixin
+  ],
 
   data: () => ({
-    initializing: true,
-    // whether any operations are currently running
-    working: false,
-    // error messages returned from API (e.g. invalid data)
-    apiError: '',
     // model for new instance
     model: BookModel.empty(),
     // local validation errors

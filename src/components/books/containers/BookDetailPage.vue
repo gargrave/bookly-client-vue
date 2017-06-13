@@ -61,6 +61,7 @@ import { localUrls } from '../../../globals/urls'
 import BookModel from '../../../models/book'
 import { areEqual, validate } from '../utils/bookValidator'
 
+import ContainerMixin from '../../mixins/ContainerMixin'
 import BookDetailView from '../components/BookDetailView'
 import BookEditView from '../components/BookEditView'
 import BookMixin from '../mixins/BookMixin'
@@ -71,14 +72,12 @@ export default {
     appBookEditView: BookEditView
   },
 
-  mixins: [BookMixin],
+  mixins: [
+    ContainerMixin,
+    BookMixin
+  ],
 
   data: () => ({
-    initializing: true,
-    // whether any operations are currently running
-    working: false,
-    // error messages returned from API (e.g. invalid data)
-    apiError: '',
     // whether we are in editing or viewing mode
     editing: false,
     // the working copy of the instance

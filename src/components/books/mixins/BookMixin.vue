@@ -1,6 +1,5 @@
 <script>
 import { mapActions } from 'vuex'
-import { Loading } from 'quasar'
 
 import { localUrls } from '../../../globals/urls'
 
@@ -38,24 +37,6 @@ export default {
     afterCreatedNotLoggedIn () {
       this.$router.push(localUrls.login)
       this.exitWorkingState()
-    },
-
-    /**
-     * Enters working state by setting the necessary vars.
-     */
-    enterWorkingState () {
-      this.working = true
-      this.initializing = true
-      Loading.show({ message: 'Working...' })
-    },
-
-    /**
-     * Exits 'working' state by resetting all associated vars.
-     */
-    exitWorkingState () {
-      this.working = false
-      this.initializing = false
-      Loading.hide()
     },
 
     ...mapActions([

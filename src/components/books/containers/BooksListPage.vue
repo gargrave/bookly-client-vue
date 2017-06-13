@@ -39,12 +39,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { Loading } from 'quasar'
 
 import { localUrls } from '../../../globals/urls'
 
 import EmptyListCard from '../../common/EmptyListCard'
 import InitializingCard from '../../common/InitializingCard'
+import ContainerMixin from '../../mixins/ContainerMixin'
 import BookCard from '../components/BookListCard'
 import BookMixin from '../mixins/BookMixin'
 
@@ -55,15 +55,10 @@ export default {
     appBookCard: BookCard
   },
 
-  mixins: [BookMixin],
-
-  data: () => ({
-    initializing: true,
-    // whether any operations are currently running
-    working: false,
-    // error messages returned from API (e.g. invalid data)
-    apiError: ''
-  }),
+  mixins: [
+    ContainerMixin,
+    BookMixin
+  ],
 
   computed: {
     isWorking () {
@@ -87,13 +82,6 @@ export default {
       if (Number.isInteger(id)) {
         this.$router.push(`${localUrls.booksList}/${id}`)
       }
-    },
-
-    /** Gracefully handles any error messages from the API */
-    onError (err) {
-      this.apiError = err.message || ''
-      this.working = false
-      this.initializing = false
     },
 
     ...mapActions([
