@@ -9,7 +9,7 @@ export default {
   /**
    * Fetches the full list of user's Books from the API.
    */
-  fetchBooks ({ getters, commit }) {
+  fetchBooks ({ dispatch, getters, commit }) {
     return new Promise((resolve, reject) => {
       // make sure we have a valid auth token
       const authToken = getters.authToken
@@ -17,19 +17,22 @@ export default {
         reject(cleanErrors.INVALID_TOKEN)
       }
 
-      const request = apiHelper.axGet(apiUrls.books, authToken)
-      commit(BOOKS.AJAX_BEGIN)
+      dispatch('getCachedOrFetchAuthors')
+        .then(() => {
+          const request = apiHelper.axGet(apiUrls.books, authToken)
+          commit(BOOKS.AJAX_BEGIN)
 
-      axios(request)
-        .then(res => {
-          const books = res.data
-          commit(BOOKS.FETCH_SUCCESS, books)
-          commit(BOOKS.AJAX_END)
-          resolve()
-        })
-        .catch(err => {
-          commit(BOOKS.AJAX_END)
-          reject(parseError(err))
+          axios(request)
+            .then(res => {
+              const books = res.data
+              commit(BOOKS.FETCH_SUCCESS, books)
+              commit(BOOKS.AJAX_END)
+              resolve()
+            })
+            .catch(err => {
+              commit(BOOKS.AJAX_END)
+              reject(parseError(err))
+            })
         })
     })
   },
