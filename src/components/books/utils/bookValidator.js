@@ -41,5 +41,10 @@ export function areEqual (a, b) {
     match = false
   }
 
+  // compare 'authorId' prop
+  if ((Number(a.authorId) !== Number(b.authorId))) {
+    match = false
+  }
+
   return match
 }
