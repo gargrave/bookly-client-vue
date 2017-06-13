@@ -62,19 +62,19 @@ import { areEqual, validate } from '../utils/authorValidator'
 
 import AuthorDetailView from '../components/AuthorDetailView'
 import AuthorEditView from '../components/AuthorEditView'
+import AuthorContainerMixin from '../mixins/AuthorContainerMixin'
 
 export default {
+  mixins: [
+    AuthorContainerMixin
+  ],
+
   components: {
     appAuthorDetailView: AuthorDetailView,
     appAuthorEditView: AuthorEditView
   },
 
   data: () => ({
-    initializing: true,
-    // whether any operations are currently running
-    working: false,
-    // error messages returned from API (e.g. invalid data)
-    apiError: '',
     // whether we are in editing or viewing mode
     editing: false,
     // the working copy of the instance
@@ -125,8 +125,7 @@ export default {
           .then(() => {
             toasts.deleteConfirm('Author')
             this.$router.push(localUrls.authorsList)
-            this.working = false
-            Loading.hide()
+            this.exitWorkingState()
           }, err => { this.onError(err) })
       })
     },
@@ -146,8 +145,7 @@ export default {
           .then(() => {
             toasts.updateConfirm('Author')
             this.$router.push(localUrls.authorsList)
-            this.working = false
-            Loading.hide()
+            this.exitWorkingState()
           }, err => { this.onError(err) })
       } else {
         if (!hasChanges) {
@@ -166,45 +164,32 @@ export default {
       this.editing = false
     },
 
-    /** Gracefully handles any error messages from the API */
-    onError (err) {
-      this.apiError = err.message || ''
-      this.working = false
-      this.initializing = false
-      Loading.hide()
+    /**
+     * Custom hook to attempt to load the information for the specified Author (by ID).
+     * If the Author is not found, redirect back to the Authors list view.
+     */
+    afterCreatedLoggedIn () {
+      const authorId = this.$route.params.id
+      if (!authorId) {
+        this.$router.push(localUrls.authorsList)
+      } else {
+        this.findAuthor(authorId)
+          .then(authorRes => {
+            this.model = cloneDeep(authorRes)
+            this.originalModel = cloneDeep(authorRes)
+            this.exitWorkingState()
+          }, () => {
+            // if no valid instance, return to the List view
+            this.$router.push(localUrls.authorsList)
+          })
+      }
     },
 
     ...mapActions([
-      'checkForStoredLogin',
       'findAuthor',
       'updateAuthor',
       'deleteAuthor'
     ])
-  },
-
-  created () {
-    this.working = true
-    Loading.show({ message: 'Loading...' })
-
-    this.checkForStoredLogin()
-      .then(() => {
-        const authorId = this.$route.params.id
-        if (!authorId) {
-          this.$router.push(localUrls.authorsList)
-        } else {
-          this.findAuthor(authorId)
-            .then(authorRes => {
-              this.model = cloneDeep(authorRes)
-              this.originalModel = cloneDeep(authorRes)
-              this.working = false
-              this.initializing = false
-              Loading.hide()
-            }, () => {
-              // if no valid instance, return to the List view
-              this.$router.push(localUrls.authorsList)
-            })
-        }
-      }, err => { this.onError(err) })
   }
 }
 </script>

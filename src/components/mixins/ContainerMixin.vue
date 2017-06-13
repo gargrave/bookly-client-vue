@@ -1,4 +1,6 @@
 <script>
+import { mapActions } from 'vuex'
+
 import { Loading } from 'quasar'
 
 export default {
@@ -36,7 +38,11 @@ export default {
       this.working = false
       this.initializing = false
       Loading.hide()
-    }
+    },
+
+    ...mapActions([
+      'checkForStoredLogin'
+    ])
   }
 }
 </script>

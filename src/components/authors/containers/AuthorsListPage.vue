@@ -38,29 +38,25 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import { Loading } from 'quasar'
+import { mapGetters } from 'vuex'
 
 import { localUrls } from '../../../globals/urls'
 
 import EmptyListCard from '../../common/EmptyListCard'
 import InitializingCard from '../../common/InitializingCard'
 import AuthorCard from '../components/AuthorListCard'
+import AuthorContainerMixin from '../mixins/AuthorContainerMixin'
 
 export default {
+  mixins: [
+    AuthorContainerMixin
+  ],
+
   components: {
     appEmptyListCard: EmptyListCard,
     appInitializingCard: InitializingCard,
     appAuthorCard: AuthorCard
   },
-
-  data: () => ({
-    initializing: true,
-    // whether any operations are currently running
-    working: false,
-    // error messages returned from API (e.g. invalid data)
-    apiError: ''
-  }),
 
   computed: {
     isWorking () {
@@ -74,20 +70,6 @@ export default {
   },
 
   methods: {
-    /** Queries the store to update the local list of Authors */
-    rebuildAuthorsList () {
-      this.apiError = ''
-      this.working = true
-      Loading.show({ message: 'Loading...' })
-
-      this.getCachedOrFetchAuthors()
-        .then(() => {
-          this.working = false
-          this.initializing = false
-          Loading.hide()
-        }, err => { this.onError(err) })
-    },
-
     /** Callback for 'add new author' button click event */
     onAddClick () {
       this.$router.push(localUrls.authorCreate)
@@ -98,34 +80,7 @@ export default {
       if (Number.isInteger(id)) {
         this.$router.push(`${localUrls.authorsList}/${id}`)
       }
-    },
-
-    /** Gracefully handles any error messages from the API */
-    onError (err) {
-      console.log('err')
-      this.apiError = err.message || ''
-      this.working = false
-      this.initializing = false
-    },
-
-    ...mapActions([
-      'checkForStoredLogin',
-      'getCachedOrFetchAuthors'
-    ])
-  },
-
-  created () {
-    this.working = true
-    Loading.show({ message: 'Loading...' })
-
-    this.checkForStoredLogin()
-      .then(() => {
-        this.rebuildAuthorsList()
-      }, () => {
-        this.$router.push(localUrls.login)
-        this.working = false
-        Loading.hide()
-      })
+    }
   }
 }
 </script>

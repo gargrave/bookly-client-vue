@@ -60,7 +60,8 @@ export default {
      * Callback for clicking the 'edit' button; simply change to 'editing' state.
      */
     onEditClick () {
-      this.editing = true
+      // this.editing = true
+      Toast.create.info('Sorry, not implemented yet!')
     },
 
     /**

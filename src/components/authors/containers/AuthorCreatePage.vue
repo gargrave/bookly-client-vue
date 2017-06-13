@@ -38,18 +38,18 @@ import AuthorModel from '../../../models/author'
 import { validate } from '../utils/authorValidator'
 
 import AuthorForm from '../components/AuthorForm'
+import AuthorContainerMixin from '../mixins/AuthorContainerMixin'
 
 export default {
+  mixins: [
+    AuthorContainerMixin
+  ],
+
   components: {
     appAuthorForm: AuthorForm
   },
 
   data: () => ({
-    initializing: true,
-    // whether any operations are currently running
-    working: false,
-    // error messages returned from API (e.g. invalid data)
-    apiError: '',
     // model for new instance
     model: AuthorModel.empty(),
     // local validation errors
@@ -78,8 +78,7 @@ export default {
           .then(res => {
             toasts.createConfirm('Author')
             this.$router.push(`${localUrls.authorsList}/${res.id}`)
-            this.working = false
-            Loading.hide()
+            this.exitWorkingState()
           }, err => { this.onError(err) })
       } else {
         this.errors = errors
@@ -91,31 +90,9 @@ export default {
       this.$router.push(localUrls.authorsList)
     },
 
-    /** Handle any errors received from calls to the API */
-    onError (err) {
-      this.apiError = err.message || ''
-      this.working = false
-      Loading.hide()
-    },
-
     ...mapActions([
-      'checkForStoredLogin',
       'createAuthor'
     ])
-  },
-
-  created () {
-    this.working = true
-    Loading.show({ message: 'Loading...' })
-
-    this.checkForStoredLogin()
-      .then(() => {
-        // if logged in, no further action needed
-        this.initializing = false
-        Loading.hide()
-      }, () => {
-        this.$router.push(localUrls.login)
-      })
   }
 }
 </script>
