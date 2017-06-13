@@ -1,9 +1,7 @@
 <template>
   <div class="card-content">
-    <p><strong>Username:</strong> {{ userData.username }} </p>
-    <p><strong>Real name:</strong> {{ profile.firstName }} {{ profile.lastName }} </p>
     <p><strong>Email:</strong> {{ userData.email }} </p>
-    <p><strong>Member since:</strong> {{ userData.created }} </p>
+    <p><strong>Member since:</strong> {{ createdDate }} </p>
 
     <hr>
     <button
@@ -21,10 +19,18 @@
 </template>
 
 <script>
+import dateHelper from '../../../utils/dateHelper'
+
 export default {
   props: {
     userData: { type: Object, required: true },
     profile: { type: Object, required: true }
+  },
+
+  computed: {
+    createdDate () {
+      return dateHelper.cleanDate(this.userData.created)
+    }
   }
 }
 </script>
