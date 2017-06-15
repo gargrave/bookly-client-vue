@@ -1,6 +1,6 @@
 import env from '../../globals/env'
 import BookModel from '../../models/book'
-import { BOOKS } from '../mutation-types'
+import { AUTHORS, BOOKS } from '../mutation-types'
 import actions from './actions'
 // import mockActions from './actions-mock'
 
@@ -69,6 +69,15 @@ export default {
     [BOOKS.DELETE_SUCCESS] (state, bookId) {
       state.books = state.books.filter(
         p => Number(p.id) !== Number(bookId)
+      )
+      sortBooks(state.books)
+    },
+
+    // when an Author is deleted, we need to manually "cascade"
+    // the delete locally, to purge any books by that Author
+    [AUTHORS.DELETE_SUCCESS] (state, authorId) {
+      state.books = state.books.filter(
+        b => Number(b.author.id) !== Number(authorId)
       )
       sortBooks(state.books)
     }
