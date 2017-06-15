@@ -61,14 +61,14 @@ export default {
 
     [BOOKS.UPDATE_SUCCESS] (state, book) {
       state.books = [...state.books.filter(
-        s => Number(s.id) !== Number(book.id)
+        b => Number(b.id) !== Number(book.id)
       ), BookModel.fromAPI(book)]
       sortBooks(state.books)
     },
 
     [BOOKS.DELETE_SUCCESS] (state, bookId) {
       state.books = state.books.filter(
-        p => Number(p.id) !== Number(bookId)
+        b => Number(b.id) !== Number(bookId)
       )
       sortBooks(state.books)
     },

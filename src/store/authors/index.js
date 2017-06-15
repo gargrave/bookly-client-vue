@@ -61,14 +61,14 @@ export default {
 
     [AUTHORS.UPDATE_SUCCESS] (state, author) {
       state.authors = [...state.authors.filter(
-        s => Number(s.id) !== Number(author.id)
+        a => Number(a.id) !== Number(author.id)
       ), AuthorModel.fromAPI(author)]
       sortAuthors(state.authors)
     },
 
     [AUTHORS.DELETE_SUCCESS] (state, authorId) {
       state.authors = state.authors.filter(
-        p => Number(p.id) !== Number(authorId)
+        a => Number(a.id) !== Number(authorId)
       )
       sortAuthors(state.authors)
     }
