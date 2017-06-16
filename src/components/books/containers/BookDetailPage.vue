@@ -61,6 +61,7 @@ import { localUrls } from '../../../globals/urls'
 import BookModel from '../../../models/book'
 import { areEqual, validate } from '../utils/bookValidator'
 
+import DetailViewMixin from '../../mixins/DetailViewMixin'
 import BookDetailView from '../components/BookDetailView'
 import BookEditView from '../components/BookEditView'
 import BookContainerMixin from '../mixins/BookContainerMixin'
@@ -72,18 +73,15 @@ export default {
   },
 
   mixins: [
-    BookContainerMixin
+    BookContainerMixin,
+    DetailViewMixin
   ],
 
   data: () => ({
-    // whether we are in editing or viewing mode
-    editing: false,
-    // the working copy of the instance
-    model: BookModel.empty(),
-    // the untouched copy of the original instance
-    originalModel: BookModel.empty(),
-    // local validation errors
-    errors: BookModel.emptyErrors()
+    config: {
+      modelName: 'Book',
+      listRoute: localUrls.booksList
+    }
   }),
 
   computed: {
@@ -97,40 +95,24 @@ export default {
   },
 
   methods: {
-    handleInput (e) {
-      let key = e.target.name
-      if (key in this.model) {
-        this.model[key] = e.target.value
-      }
-    },
+    getBaseModel: () => BookModel,
 
     /** callback for handling changes to select fields */
     handleSelect (value) {
       this.model.author.id = value
     },
 
-    /** Callback for clicking the 'edit' button; simply change to 'editing' state. */
-    onEditClick () {
-      this.model = cloneDeep(this.originalModel)
-      this.editing = true
-    },
-
-    /** Callback for clicking the 'back' button; simply return to list page. */
-    onBackClick () {
-      this.$router.push(localUrls.booksList)
-    },
-
     /** Callback for clicking the 'delete' button; send a request to delete this object. */
     onDeleteClick () {
-      dialogs.confirmDelete('Book', () => {
+      dialogs.confirmDelete(this.config.modelName, () => {
         this.working = true
         this.apiError = ''
-        Loading.show({ message: 'Deleting Book...' })
+        Loading.show({ message: `Deleting ${this.config.modelName}...` })
 
         this.deleteBook(this.model.id)
           .then(() => {
-            toasts.deleteConfirm('Book')
-            this.$router.push(localUrls.booksList)
+            toasts.deleteConfirm(this.config.modelName)
+            this.$router.push(this.config.listRoute)
             this.exitWorkingState()
           }, err => { this.onError(err) })
       })
@@ -145,12 +127,12 @@ export default {
       if (valid && hasChanges) {
         this.working = true
         this.apiError = ''
-        Loading.show({ message: 'Saving Book...' })
+        Loading.show({ message: `Saving ${this.config.modelName}...` })
 
         this.updateBook(book)
           .then(() => {
-            toasts.updateConfirm('Book')
-            this.$router.push(localUrls.booksList)
+            toasts.updateConfirm(this.config.modelName)
+            this.$router.push(this.config.listRoute)
             this.exitWorkingState()
           }, err => { this.onError(err) })
       } else {
@@ -159,15 +141,6 @@ export default {
         }
         this.errors = errors
       }
-    },
-
-    /**
-     * Callback for 'cancel' button on form;
-     * cancel the 'editing' state and revert the model.
-     */
-    onFormCancelled (value, event) {
-      this.model = cloneDeep(this.originalModel)
-      this.editing = false
     },
 
     /**
@@ -183,6 +156,7 @@ export default {
           .then(bookRes => {
             this.model = cloneDeep(bookRes)
             this.originalModel = cloneDeep(bookRes)
+            this.originalModel.authorId = this.originalModel.author.id
             this.exitWorkingState()
           }, () => {
             // if no valid instance, return to the List view
