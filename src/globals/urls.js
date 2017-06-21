@@ -2,7 +2,7 @@ import env from './env'
 
 const DEV_API_ROOT_URL = 'http://localhost:3001'
 const STAGING_API_ROOT_URL = ''
-const PROD_API_ROOT_URL = ''
+const PROD_API_ROOT_URL = 'https://bookly.gargrave.us/'
 
 let apiRoot
 let restApiRoot
