@@ -1,5 +1,14 @@
+// breakpoints defined by Quasar; useed for media queries
+$breakpoint-xs: 575px;
+$breakpoint-sm: 767px;
+$breakpoint-md: 991px;
+$breakpoint-lg: 1199px;
+// the size where the visibility of the side drawer is automatically toggled
+$breakpoint-drawer-min: 921px;
+
 $clampMaxWidth: 600px;
-
 $listViewMarginBtm: 14px;
-
 $errTextColor: #db2828;
+
+$primary: #027be3;
+$primaryLight1: lighten($primary, 6%);
