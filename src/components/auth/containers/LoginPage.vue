@@ -78,7 +78,7 @@ export default {
         this.login(userData)
           .then(res => {
             toasts.success('Login')
-            this.$router.push(localUrls.authorsList)
+            this.$router.push(localUrls.booksList)
             this.working = false
             Loading.hide()
           }, err => { this.onError(err) })
