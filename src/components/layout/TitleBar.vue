@@ -12,7 +12,9 @@
       <span class="toolbar-element toolbar-title">Bookly</span>
 
       <!-- toolbar links; only shown on lg sizes -->
-      <span class="toolbar-links gt-sm inline">
+      <span
+        class="toolbar-links gt-sm inline"
+        v-if="isLoggedIn">
         <router-link
           class="toolbar-element toolbar-link"
           active-class="toolbar-link-active"
