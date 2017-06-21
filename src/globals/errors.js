@@ -63,7 +63,8 @@ export const cleanErrors = {
 }
 
 export function parseError (e) {
-  const data = e.response.data || cleanErrors.EMPTY
+  // TODO this needs to be refactored to match the API's error messages
+  const data = (e.response && e.response.data) ? e.response.data : cleanErrors.EMPTY
 
   // invalid token error
   if (isError(data, apiErrorObjects.INVALID_TOKEN)) {
