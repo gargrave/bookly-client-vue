@@ -7,7 +7,7 @@ const ENV = {
 }
 
 const STAGING_SITE_URL_CHECK = 'not a real URL'
-const PROD_SITE_URL_CHECK = 'not a real URL'
+const PROD_SITE_URL_CHECK = 'bookly-app.us'
 
 let appEnv = ENV.PROD;
 
