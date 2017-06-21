@@ -1,0 +1,55 @@
+// static size of the toolbar
+$toolbarHeight: 56px;
+// vars for sizing text elements within the toolbar
+$toolbarLineHeight: 20px;
+$toolbarBasePaddingY: ($toolbarHeight - $toolbarLineHeight) / 2;
+// y-offset for text elements in the toolbar
+// when they are perfectly centered, they don't look QUITE right, so offsetting them a little can help
+$toolbarElementOffsetY: 2;
+
+.toolbar {
+  padding: 0px 8px !important;
+  height: $toolbarHeight;
+  min-height: $toolbarHeight;
+
+  // base class for any element in the toolbar
+  // this overrides the default sizing to be more like Bootstrap, where
+  // the elements take up the full height
+  .toolbar-element {
+    display: inline-block;
+    line-height: $toolbarLineHeight;
+    padding-top: $toolbarBasePaddingY + $toolbarElementOffsetY;
+    padding-bottom: $toolbarBasePaddingY - $toolbarElementOffsetY;
+  }
+
+  // container element for links
+  .toolbar-links {
+    padding-left: 18px;
+
+    // base link type
+    .toolbar-link {
+      color: white;
+      font-weight: 500;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    // link for current route (i.e. for Vue Router's active-class)
+    .toolbar-link-active {
+      font-weight: bold;
+      background-color: $primaryLight1;
+    }
+  }
+
+  .toolbar-title {
+    font-size: 1.25rem !important;
+    font-weight: bold;
+  }
+}
+
+@media(min-width: $breakpoint-drawer-min) {
+  .toolbar {
+    // incrase toolbar padding when drawer button is hidden
+    padding: 0px 20px !important;
+  }
+}
