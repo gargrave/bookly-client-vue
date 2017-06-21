@@ -1,6 +1,7 @@
 <template>
   <div class="toolbar">
 
+    <!-- toggle drawer button (only visible on mobile) -->
     <button
       class="hide-on-drawer-visible"
       @click="$emit('toggleDrawer')">
@@ -15,6 +16,8 @@
       <span
         class="toolbar-links gt-sm inline"
         v-if="isLoggedIn">
+
+        <!-- link to Books list page -->
         <router-link
           class="toolbar-element toolbar-link"
           active-class="toolbar-link-active"
@@ -22,6 +25,7 @@
           Books
         </router-link>
 
+        <!-- link to Authors list page -->
         <router-link
           class="toolbar-element toolbar-link"
           active-class="toolbar-link-active"
@@ -32,13 +36,38 @@
 
     </div><!-- /toolbar-content -->
 
+    <!-- account/profile button/menu -->
+    <button>
+      <i>account_circle</i>
+      <q-popover ref="popover" anchor="bottom left" self="top left">
+        <div class="list item-delimiter highlight">
+
+          <!-- button to go to "my account" page -->
+          <div class="item item-link" @click="handleAccountClick">
+            <div class="item-content">
+              My Account
+            </div>
+          </div>
+
+          <!-- button to log out -->
+          <div class="item item-link" @click="handleLogoutClick">
+            <div class="item-content">
+              Logout
+            </div>
+          </div>
+
+        </div><!-- /list -->
+      </q-popover>
+    </button><!-- /account/profile button/menu -->
+
   </div><!-- /toolbar -->
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import { Loading, Toast } from 'quasar'
 
-import { routes } from '../../globals/urls'
+import { localUrls, routes } from '../../globals/urls'
 
 export default {
   data () {
@@ -50,6 +79,31 @@ export default {
   computed: {
     ...mapGetters([
       'isLoggedIn'
+    ])
+  },
+
+  methods: {
+    handleAccountClick () {
+      this.$refs.popover.close()
+      this.$router.push(localUrls.account)
+    },
+
+    handleLogoutClick () {
+      this.$refs.popover.close()
+      this.working = true
+      Loading.show({ message: 'Logging out...' })
+
+      this.logout()
+        .then(() => {
+          Toast.create.info('Logged out!')
+          this.$router.push(localUrls.login)
+          this.working = false
+          Loading.hide()
+        })
+    },
+
+    ...mapActions([
+      'logout'
     ])
   }
 }
