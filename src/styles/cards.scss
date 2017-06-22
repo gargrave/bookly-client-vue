@@ -3,6 +3,10 @@
   background-color: #fdfdfd;
 }
 
+.card.index-page-card {
+  text-align: center;
+}
+
 .card > .card-content hr {
   @include hr-light();
 }

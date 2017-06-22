@@ -10,7 +10,9 @@
 
     <div class="toolbar-content">
 
-      <span class="toolbar-element toolbar-title">Bookly</span>
+      <span class="toolbar-element toolbar-title">
+        <router-link to="/" style="color: white">Bookly</router-link>
+      </span>
 
       <!-- toolbar links; only shown on lg sizes -->
       <span
