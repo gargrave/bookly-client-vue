@@ -78,7 +78,6 @@ export default {
      * for that Author to make sure their data is in sync with the update Author.
      */
     [AUTHORS.UPDATE_SUCCESS] (state, author) {
-      console.log('Books -> AUTHORS.UPDATE_SUCCESS')
       state.books.forEach(book => {
         if (book.author.id === author.id) {
           book.author.name = `${author.firstName} ${author.lastName}`
