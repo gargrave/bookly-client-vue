@@ -73,8 +73,23 @@ export default {
       sortBooks(state.books)
     },
 
-    // when an Author is deleted, we need to manually "cascade"
-    // the delete locally, to purge any books by that Author
+    /*
+     * When an Author is updated, we need to manually update the local Books
+     * for that Author to make sure their data is in sync with the update Author.
+     */
+    [AUTHORS.UPDATE_SUCCESS] (state, author) {
+      console.log('Books -> AUTHORS.UPDATE_SUCCESS')
+      state.books.forEach(book => {
+        if (book.author.id === author.id) {
+          book.author.name = `${author.firstName} ${author.lastName}`
+        }
+      })
+    },
+
+    /*
+     * When an Author is deleted, we need to manually "cascade"
+     * the delete locally, in order to purge any books by that Author.
+     */
     [AUTHORS.DELETE_SUCCESS] (state, authorId) {
       state.books = state.books.filter(
         b => Number(b.author.id) !== Number(authorId)
