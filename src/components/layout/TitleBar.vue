@@ -42,19 +42,35 @@
       <q-popover ref="popover" anchor="bottom left" self="top left">
         <div class="list item-delimiter highlight">
 
-          <!-- button to go to "my account" page -->
-          <div class="item item-link" @click="handleAccountClick">
-            <div class="item-content">
-              My Account
+          <span v-if="isLoggedIn">
+            <!-- button to go to "my account" page -->
+            <div class="item item-link" @click="handleAccountClick">
+              <div class="item-content">
+                My Account
+              </div>
             </div>
-          </div>
 
-          <!-- button to log out -->
-          <div class="item item-link" @click="handleLogoutClick">
-            <div class="item-content">
-              Logout
+            <!-- button to log out -->
+            <div class="item item-link" @click="handleLogoutClick">
+              <div class="item-content">
+                Logout
+              </div>
             </div>
-          </div>
+          </span>
+          <span v-else>
+            <!-- button to go to "register" page -->
+            <div class="item item-link" @click="handleRegisterClick">
+              <div class="item-content">
+                Register
+              </div>
+            </div>
+            <!-- button to go to "login" page -->
+            <div class="item item-link" @click="handleLoginClick">
+              <div class="item-content">
+                Login
+              </div>
+            </div>
+          </span>
 
         </div><!-- /list -->
       </q-popover>
@@ -86,6 +102,16 @@ export default {
     handleAccountClick () {
       this.$refs.popover.close()
       this.$router.push(localUrls.account)
+    },
+
+    handleRegisterClick () {
+      this.$refs.popover.close()
+      this.$router.push(localUrls.accountCreate)
+    },
+
+    handleLoginClick () {
+      this.$refs.popover.close()
+      this.$router.push(localUrls.login)
     },
 
     handleLogoutClick () {
