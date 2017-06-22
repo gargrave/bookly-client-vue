@@ -50,7 +50,7 @@ export default {
       commit(USER.LOGOUT)
       // commit(PROFILE.LOGOUT)
       commit(AUTHORS.CLEAR_ALL)
-      // commit(BOOKS.CLEAR_ALL)
+      commit(BOOKS.CLEAR_ALL)
       resolve()
     })
   },
