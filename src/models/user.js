@@ -1,19 +1,21 @@
-import { cloneDeep } from 'lodash'
-
 export default {
   empty () {
     return {
       id: '',
       email: '',
-      created_at: '',
-      updated_at: ''
+      createdAt: '',
+      updatedAt: '',
+      lastLogin: ''
     }
   },
 
   fromAPI (data) {
-    return Object.assign({},
-      this.empty(),
-      cloneDeep(data)
-    )
+    return {
+      id: data.id,
+      email: data.email,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+      lastLogin: data.last_login
+    }
   }
 }
