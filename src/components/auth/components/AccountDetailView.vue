@@ -1,7 +1,9 @@
 <template>
   <div class="card-content">
     <p><strong>Email:</strong> {{ userData.email }} </p>
+    <hr>
     <p><strong>Member since:</strong> {{ createdDate }} </p>
+    <p><strong>Last login:</strong> {{ lastLoginDate }} </p>
 
     <hr>
     <button
@@ -29,7 +31,11 @@ export default {
 
   computed: {
     createdDate () {
-      return dateHelper.cleanDate(this.userData.created)
+      return dateHelper.cleanDate(this.userData.createdAt)
+    },
+
+    lastLoginDate () {
+      return dateHelper.cleanDateTime(this.userData.lastLogin)
     }
   }
 }
