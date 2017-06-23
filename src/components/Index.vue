@@ -53,13 +53,13 @@
 
           <hr>
 
-          <p>Login or sign up to get started!</p>
+          <p>Log in or sign up to get started!</p>
 
           <p>
             <button
               class="primary"
               @click="$router.push(localUrls.account)">
-              Login
+              Log In
             </button>
             <button
               class="secondary"

@@ -6,7 +6,7 @@
         <div class="card">
 
           <div class="card-title bg-primary text-white">
-            Login Page
+            Log In
           </div><!-- /card-title -->
 
           <div class="card-content">
@@ -77,7 +77,7 @@ export default {
 
         this.login(userData)
           .then(res => {
-            toasts.success('Login')
+            toasts.success('Log In')
             this.$router.push(localUrls.booksList)
             this.working = false
             Loading.hide()

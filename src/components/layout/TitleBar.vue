@@ -60,16 +60,16 @@
             </div>
           </span>
           <span v-else>
-            <!-- button to go to "register" page -->
-            <div class="item item-link" @click="handleRegisterClick">
-              <div class="item-content">
-                Register
-              </div>
-            </div>
             <!-- button to go to "login" page -->
             <div class="item item-link" @click="handleLoginClick">
               <div class="item-content">
-                Login
+                Log In
+              </div>
+            </div>
+            <!-- button to go to "register" page -->
+            <div class="item item-link" @click="handleRegisterClick">
+              <div class="item-content">
+                Sign Up
               </div>
             </div>
           </span>
