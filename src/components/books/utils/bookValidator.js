@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash'
 import validator from 'validator'
 
-import { valErrs } from '../../../globals/errors'
+import { validationErrs } from '../../../globals/errors'
 import BookModel from '../../../models/book'
 
 export function validate (data) {
@@ -11,14 +11,14 @@ export function validate (data) {
 
   // validate title -> required
   if (validator.isEmpty(testData.title)) {
-    errors.title = valErrs.required
+    errors.title = validationErrs.required
     valid = false
   }
 
   // validate authorId -> required
   if (validator.isEmpty(testData.authorId.toString()) ||
       testData.authorId < 0) {
-    errors.author = valErrs.required
+    errors.author = validationErrs.required
     valid = false
   }
 
