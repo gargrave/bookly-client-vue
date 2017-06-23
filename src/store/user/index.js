@@ -1,28 +1,15 @@
 import env from '../../globals/env'
-
+import UserModel from '../../models/user'
 import { USER } from '../mutation-types'
-
 import actions from './actions'
 // import mockActions from '../mock/user/user-actions-mock'
-
-function getEmptyUser () {
-  return {
-    id: '',
-    username: '',
-    email: '',
-    dateJoined: '',
-    lastLogin: ''
-  }
-}
 
 export default {
   state: {
     // whether we have any open calls to the User API
     userAjaxPending: false,
-
     // full user data
-    user: getEmptyUser(),
-
+    user: UserModel.empty(),
     // current auth token (if any)
     authToken: null
   },
@@ -73,19 +60,12 @@ export default {
     },
 
     [USER.FETCH_SUCCESS] (state, user) {
-      const userData = {
-        id: user.pk,
-        username: user.username,
-        email: user.email,
-        created: user.created_at,
-        updated: user.updated_at
-      }
-      state.user = userData
+      state.user = UserModel.fromAPI(user)
     },
 
     /** logout current user; simply clear existing user data */
     [USER.LOGOUT] (state) {
-      state.user = getEmptyUser()
+      state.user = UserModel.empty()
       state.authToken = ''
 
       if (!env.isTesting()) {
