@@ -49,7 +49,7 @@ export default new VueRouter({
       name: routes.auth.detail
     },
     {
-      path: localUrls.accountCreate,
+      path: localUrls.register,
       component: RegisterPage,
       name: routes.auth.create
     },

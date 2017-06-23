@@ -54,8 +54,8 @@ export let apiUrls = {
 export let localUrls = {
   // auth routes
   account: '/account',
-  accountCreate: '/account/new',
   login: '/account/login',
+  register: '/account/register',
   // authors routes
   authorsList: '/authors',
   authorCreate: '/authors/new',

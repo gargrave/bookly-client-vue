@@ -108,7 +108,7 @@ export default {
 
     handleRegisterClick () {
       this.$refs.popover.close()
-      this.$router.push(localUrls.accountCreate)
+      this.$router.push(localUrls.register)
     },
 
     handleLoginClick () {

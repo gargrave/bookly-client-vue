@@ -63,7 +63,7 @@
             </button>
             <button
               class="secondary"
-              @click="$router.push(localUrls.accountCreate)">
+              @click="$router.push(localUrls.register)">
               Sign Up
             </button>
           </p>

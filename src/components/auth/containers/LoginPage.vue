@@ -87,7 +87,7 @@ export default {
 
     /** Callback for 'cancelled' event from the form; simply go back to list page. */
     onFormCancelled () {
-      this.$router.push(localUrls.accountCreate)
+      this.$router.push(localUrls.register)
     },
 
     /** Handle any errors received from calls to the API */
