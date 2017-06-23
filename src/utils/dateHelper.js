@@ -62,10 +62,10 @@ export default {
 
   /**
    * Returns the date formatted like:
-   * March 14, 2017 @ 9:58 am
+   * March 14, 2017 @ 9:58:43 am
    */
   cleanDateTime (date) {
-    return moment(date).format('MMMM Do, YYYY @ h:mm a')
+    return moment(date).format('MMMM Do, YYYY @ h:mm:ss a')
   },
 
   /**
