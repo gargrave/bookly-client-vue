@@ -3,7 +3,7 @@ import axios from 'axios'
 import { apiUrls } from '../../globals/urls'
 import { parseError, cleanErrors } from '../../globals/errors'
 import apiHelper from '../../utils/apiHelper'
-import { AUTHORS, BOOKS, PROFILE, USER } from '../mutation-types'
+import { AUTHORS, BOOKS, USER } from '../mutation-types'
 
 export default {
   /**
@@ -100,10 +100,10 @@ export default {
     }
 
     // GET request to Profile API endpoint
-    function profileReq () {
-      const request = apiHelper.axGet(apiUrls.profiles, authToken)
-      return axios(request)
-    }
+    // function profileReq () {
+    //   const request = apiHelper.axGet(apiUrls.profiles, authToken)
+    //   return axios(request)
+    // }
 
     return new Promise((resolve, reject) => {
       commit(USER.AJAX_BEGIN)

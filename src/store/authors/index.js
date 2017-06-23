@@ -1,4 +1,4 @@
-import env from '../../globals/env'
+// import env from '../../globals/env'
 import AuthorModel from '../../models/author'
 import { AUTHORS } from '../mutation-types'
 import actions from './actions'
