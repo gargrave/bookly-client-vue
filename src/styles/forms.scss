@@ -1,3 +1,7 @@
+.card .card-content form {
+  padding: 2px;
+}
+
 .form-group {
   margin-bottom: 1rem;
   width: 100%;
@@ -18,9 +22,5 @@
 
 .form-group > .form-error {
   font-size: .8rem;
-  color: $errTextColor;
-}
-
-.apiError {
   color: $errTextColor;
 }

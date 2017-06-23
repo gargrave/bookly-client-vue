@@ -9,7 +9,7 @@
           </div><!-- /card-title -->
 
           <div class="card-content">
-            <p v-if="apiError" class="apiError">Error: {{ apiError }}</p>
+            <p v-if="apiError" class="alert alert-danger">Error: {{ apiError }}</p>
             <app-register-form
               :working="working"
               :errors="errors"

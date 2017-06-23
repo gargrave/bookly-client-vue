@@ -8,6 +8,18 @@ hr.hr-light {
   @include hr-light();
 }
 
+.alert {
+  padding: 13px 14px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+
+  &.alert-danger {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: $alertDangerText;
+  }
+}
+
 .clamp-width {
   max-width: $clampMaxWidth;
 }
