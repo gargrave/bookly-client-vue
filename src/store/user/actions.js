@@ -22,10 +22,12 @@ export default {
 
       axios(request)
         .then(res => {
-          const authToken = res.data.token
+          const userData = res.data
+          const authToken = userData.token
 
           if (authToken) {
             commit(USER.LOGIN, authToken)
+            commit(USER.FETCH_SUCCESS, userData)
             commit(USER.AJAX_END)
             resolve()
           } else {
