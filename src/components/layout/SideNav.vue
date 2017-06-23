@@ -45,7 +45,7 @@
         </q-drawer-link>
         <q-drawer-link
           icon="add_circle_outline"
-          :to="{ name: routes.auth.create }">
+          :to="{ name: routes.auth.register }">
           Sign Up
         </q-drawer-link>
       </div>

@@ -22,7 +22,7 @@ let restApiRoot
 export let routes = {
   auth: {
     login: 'auth-login',
-    create: 'auth-create',
+    register: 'auth-register',
     detail: 'auth-detail'
   },
   authors: {

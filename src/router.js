@@ -51,7 +51,7 @@ export default new VueRouter({
     {
       path: localUrls.register,
       component: RegisterPage,
-      name: routes.auth.create
+      name: routes.auth.register
     },
 
     /* ============================================
