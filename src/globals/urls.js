@@ -23,7 +23,8 @@ export let routes = {
   auth: {
     login: 'auth-login',
     register: 'auth-register',
-    detail: 'auth-detail'
+    detail: 'auth-detail',
+    verify: 'auth-verify'
   },
   authors: {
     list: 'authors-list',
@@ -45,6 +46,7 @@ export let apiUrls = {
   logout: `${restApiRoot}/auth/logout/`,
   users: `${restApiRoot}/auth/users/`,
   profiles: `${restApiRoot}/auth/profiles/`,
+  verify: `${restApiRoot}/auth/verify/`,
   // REST resource URLS
   authors: `${restApiRoot}/authors/`,
   books: `${restApiRoot}/books/`
@@ -56,6 +58,7 @@ export let localUrls = {
   account: '/account',
   login: '/account/login',
   register: '/account/register',
+  verify: '/account/verify',
   // authors routes
   authorsList: '/authors',
   authorCreate: '/authors/new',

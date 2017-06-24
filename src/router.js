@@ -6,6 +6,7 @@ import { localUrls, routes } from './globals/urls'
 import AccountDetailPage from './components/auth/containers/AccountDetailPage'
 import RegisterPage from './components/auth/containers/RegisterPage'
 import LoginPage from './components/auth/containers/LoginPage'
+import VerifyAccountPage from './components/auth/containers/VerifyAccountPage'
 
 import AuthorCreatePage from './components/authors/containers/AuthorCreatePage'
 import AuthorDetailPage from './components/authors/containers/AuthorDetailPage'
@@ -52,6 +53,11 @@ export default new VueRouter({
       path: localUrls.register,
       component: RegisterPage,
       name: routes.auth.register
+    },
+    {
+      path: localUrls.verify,
+      component: VerifyAccountPage,
+      name: routes.auth.verify
     },
 
     /* ============================================

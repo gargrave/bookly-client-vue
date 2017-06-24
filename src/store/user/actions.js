@@ -163,5 +163,23 @@ export default {
         reject(cleanErrors.EMPTY)
       }
     })
+  },
+
+  verifyAccount ({ commit }, token) {
+    return new Promise((resolve, reject) => {
+      console.log('verifyAccount')
+      const request = apiHelper.axPost(apiUrls.verify, { token })
+
+      axios(request)
+        .then(res => {
+          console.log('res:')
+          console.dir(res)
+          resolve()
+        }, err => {
+          console.log('err:')
+          console.dir(err)
+          resolve()
+        })
+    })
   }
 }
