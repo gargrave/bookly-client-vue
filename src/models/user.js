@@ -5,7 +5,8 @@ export default {
       email: '',
       createdAt: '',
       updatedAt: '',
-      lastLogin: ''
+      lastLogin: '',
+      verified: undefined
     }
   },
 
@@ -15,7 +16,8 @@ export default {
       email: data.email,
       createdAt: data.created_at,
       updatedAt: data.updated_at,
-      lastLogin: data.last_login
+      lastLogin: data.last_login,
+      verified: data.verified
     }
   }
 }
