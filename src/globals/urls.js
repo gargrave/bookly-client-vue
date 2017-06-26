@@ -47,6 +47,7 @@ export let apiUrls = {
   users: `${restApiRoot}/auth/users/`,
   profiles: `${restApiRoot}/auth/profiles/`,
   verify: `${restApiRoot}/auth/verify/`,
+  verifyResend: `${restApiRoot}/auth/verify/resend/`,
   // REST resource URLS
   authors: `${restApiRoot}/authors/`,
   books: `${restApiRoot}/books/`
