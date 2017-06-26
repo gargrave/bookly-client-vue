@@ -167,17 +167,26 @@ export default {
 
   verifyAccount ({ commit }, token) {
     return new Promise((resolve, reject) => {
-      console.log('verifyAccount')
       const request = apiHelper.axPost(apiUrls.verify, { token })
 
       axios(request)
         .then(res => {
-          console.log('res:')
-          console.dir(res)
+          resolve(res.data.verified)
+        }, err => { reject(err) })
+    })
+  },
+
+  requestNewVerifyLink ({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      const request = apiHelper.axPost(apiUrls.verifyResend, payload)
+
+      axios(request)
+        .then(res => {
+          console.log(res)
           resolve()
-        }, err => {
-          console.log('err:')
-          console.dir(err)
+        })
+        .catch(err => {
+          console.log(err)
           resolve()
         })
     })
