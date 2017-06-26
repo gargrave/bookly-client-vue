@@ -3,7 +3,34 @@
     <div class="layout-view">
       <div class="row justify-center">
 
-        <p>Thank you for verifying your account!</p>
+        <div class="card">
+          <div class="card-title bg-primary text-white">
+            Account Verification
+          </div><!-- /card-title -->
+
+          <div class="card-content">
+            <section v-if="initializing || working">
+              <p>Sending verification request...</p>
+            </section>
+
+            <section v-if="successfullyVerified === true">
+              <p>Thank you for verifying your account!</p>
+            </section>
+
+            <section v-if="successfullyVerified === false">
+              <p>The verification link you used does not appear to be valid.</p>
+              <p>If you have already verified your account, this is normal and you can ignore this error.</p>
+              <p>Otherwise, if you need to request a new link, you can do so from your Account page.</p>
+            </section>
+
+            <button
+              class="primary"
+              @click.prevent="handleGotoAccount">
+              Go to My Account
+            </button>
+          </div><!-- /card-content -->
+        </div><!-- /card -->
+
 
       </div><!-- /row -->
     </div><!-- /layout-view -->
@@ -12,6 +39,9 @@
 
 <script>
 import { mapActions } from 'vuex'
+
+import { localUrls } from '../../../globals/urls'
+
 import ContainerMixin from '../../mixins/ContainerMixin'
 
 export default {
@@ -19,7 +49,15 @@ export default {
     ContainerMixin
   ],
 
+  data: () => ({
+    successfullyVerified: undefined
+  }),
+
   methods: {
+    handleGotoAccount () {
+      this.$router.push(localUrls.account)
+    },
+
     ...mapActions([
       'verifyAccount'
     ])
@@ -31,11 +69,15 @@ export default {
       this.enterWorkingState()
       this.verifyAccount(token).then(res => {
         this.exitWorkingState()
-        console.log('************************************************')
-        console.log('* TODO: VerifyAccountPage.vue')
-        console.log('*   - handle API response on verify token')
-        console.log('************************************************')
+        if (res === true) {
+          this.successfullyVerified = true
+        }
+      }, () => {
+        this.exitWorkingState()
+        this.successfullyVerified = false
       })
+    } else {
+      this.$router.push('/')
     }
   }
 }
