@@ -4,7 +4,7 @@
     <!-- email input -->
     <app-text-input
       name="email"
-      label="Email"
+      label="Email (required for verification)"
       :error="errors.email"
       :value="user && user.email || ''"
       :handleInput="handleInput">
