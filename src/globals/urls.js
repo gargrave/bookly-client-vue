@@ -24,7 +24,9 @@ export let routes = {
     login: 'auth-login',
     register: 'auth-register',
     detail: 'auth-detail',
-    verify: 'auth-verify'
+    verify: 'auth-verify',
+    pwReset: 'auth-pw-reset',
+    pwResetConfirm: 'auth-pw-reset-confirm'
   },
   authors: {
     list: 'authors-list',
@@ -48,6 +50,8 @@ export let apiUrls = {
   profiles: `${restApiRoot}/auth/profiles/`,
   verify: `${restApiRoot}/auth/verify/`,
   verifyResend: `${restApiRoot}/auth/verify/resend/`,
+  pwResetRequest: `${restApiRoot}/auth/passwordreset`,
+  pwResetConfirm: `${restApiRoot}/auth/passwordreset/confirm`,
   // REST resource URLS
   authors: `${restApiRoot}/authors/`,
   books: `${restApiRoot}/books/`
@@ -60,6 +64,8 @@ export let localUrls = {
   login: '/account/login',
   register: '/account/register',
   verify: '/account/verify',
+  pwResetRequest: '/account/passwordreset',
+  pwResetConfirm: '/account/passwordreset/confirm',
   // authors routes
   authorsList: '/authors',
   authorCreate: '/authors/new',

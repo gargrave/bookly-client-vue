@@ -4,8 +4,10 @@ import VueRouter from 'vue-router'
 import { localUrls, routes } from './globals/urls'
 
 import AccountDetailPage from './components/auth/containers/AccountDetailPage'
-import RegisterPage from './components/auth/containers/RegisterPage'
 import LoginPage from './components/auth/containers/LoginPage'
+import PasswordResetRequestPage from './components/auth/containers/PasswordResetRequestPage'
+import PasswordResetPage from './components/auth/containers/PasswordResetPage'
+import RegisterPage from './components/auth/containers/RegisterPage'
 import VerifyAccountPage from './components/auth/containers/VerifyAccountPage'
 
 import AuthorCreatePage from './components/authors/containers/AuthorCreatePage'
@@ -58,6 +60,20 @@ export default new VueRouter({
       path: localUrls.verify,
       component: VerifyAccountPage,
       name: routes.auth.verify
+    },
+
+    /* ============================================
+     = Password reset routes
+     ============================================= */
+    {
+      path: localUrls.pwResetRequest,
+      component: PasswordResetRequestPage,
+      name: routes.auth.pwReset
+    },
+    {
+      path: localUrls.pwResetConfirm,
+      component: PasswordResetPage,
+      name: routes.auth.pwResetConfirm
     },
 
     /* ============================================
