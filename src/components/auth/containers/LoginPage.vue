@@ -19,10 +19,15 @@
               @submitted="onFormSubmitted"
               @cancelled="onFormCancelled">
             </app-login-form>
+
+            <!-- password reset link -->
+            <p class="pw-reset-notice">
+              Forgot your password?
+              <router-link :to="{ name: routes.auth.pwReset }">Click here to reset it.</router-link>
+            </p>
+
           </div><!-- /card-content -->
-
         </div><!-- /card -->
-
       </div><!-- /row -->
     </div><!-- /layout-view -->
   </transition>
@@ -33,7 +38,7 @@ import { mapActions } from 'vuex'
 import { Loading } from 'quasar'
 
 import toasts from '../../../globals/toasts'
-import { localUrls } from '../../../globals/urls'
+import { localUrls, routes } from '../../../globals/urls'
 import UserLoginModel from '../../../models/userLogin'
 import { validate } from '../utils/userLoginValidator'
 
@@ -53,7 +58,8 @@ export default {
     // model for new instance
     model: UserLoginModel.empty(),
     // local validation errors
-    errors: UserLoginModel.empty()
+    errors: UserLoginModel.empty(),
+    routes
   }),
 
   methods: {
@@ -118,3 +124,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+p.pw-reset-notice {
+  margin: 0;
+  margin-top: 12px;
+  padding: 2px;
+  font-size: .9rem;
+  text-align: left;
+}
+</style>
