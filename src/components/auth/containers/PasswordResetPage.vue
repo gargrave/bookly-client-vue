@@ -70,6 +70,7 @@ export default {
 
     async handleFormSubmission () {
       const payload = {
+        token: this.token,
         password: this.model.password,
         passwordConfirm: this.model.passwordConfirm
       }
