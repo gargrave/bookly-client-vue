@@ -199,5 +199,14 @@ export default {
     } catch (err) {
       throw parseError(err)
     }
+  },
+
+  async submitPasswordReset ({ commit }, payload) {
+    try {
+      const request = apiHelper.axPost(apiUrls.pwResetConfirm, payload)
+      return await axios(request)
+    } catch (err) {
+      throw parseError(err)
+    }
   }
 }
