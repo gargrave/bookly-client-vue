@@ -4,15 +4,17 @@ import validator from 'validator'
 import { validationErrs } from '../../../globals/errors'
 import UserRegisterModel from '../../../models/userRegister'
 
-export function validate (data) {
+export function validate (data, ignoreUsername = false) {
   let valid = true
   let errors = UserRegisterModel.empty()
   let testData = cloneDeep(data)
 
-  // validate username -> required
-  if (!validator.isEmail(testData.email)) {
-    errors.email = validationErrs.email
-    valid = false
+  if (!ignoreUsername) {
+    // validate username -> required
+    if (!validator.isEmail(testData.email)) {
+      errors.email = validationErrs.email
+      valid = false
+    }
   }
 
   // validate password -> min length 8
@@ -32,4 +34,8 @@ export function validate (data) {
   }
 
   return { errors, valid }
+}
+
+export function validatePasswords (data) {
+  return validate(data, true)
 }
