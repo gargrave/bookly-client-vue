@@ -1,3 +1,6 @@
+@import 'mixins';
+@import 'variables';
+
 .card {
   max-width: $clampMaxWidth;
   background-color: #fdfdfd;
