@@ -1,52 +1,49 @@
 import { verboseLog } from '../utils/logger'
 
-const ENV = {
-  DEV: 0,
-  STAGING: 1,
-  PROD: 2
-}
-
-const STAGING_SITE_URL_CHECK = 'not a real URL'
 const PROD_SITE_URL_CHECK = 'bookly-app.us'
+const STAGING_SITE_URL_CHECK = 'not a real URL'
+const DEV_SITE_URL_CHECK = 'localhost:8080'
 
-let appEnv = ENV.PROD;
-
-(function setAppEnv () {
-  let loc = window.location.href
-  if (loc.indexOf(STAGING_SITE_URL_CHECK) !== -1) {
-    appEnv = ENV.STAGING
-  } else if (loc.indexOf(PROD_SITE_URL_CHECK) !== -1) {
-    appEnv = ENV.PROD
-  } else {
-    appEnv = ENV.DEV
-  }
-})()
-
-const IS_TEST_ENV = process.env.NODE_ENV === 'testing'
 const ENABLE_MOCK_API = false
 
+const ENV = {
+  DEV: 'development',
+  STAGING: 'staging',
+  PROD: 'production',
+  TEST: 'testing'
+}
+
+const appEnv = getAppEnv()
+
+function getAppEnv () {
+  const loc = window.location.href
+  if (loc.indexOf(PROD_SITE_URL_CHECK) !== -1) {
+    return ENV.PROD
+  } else if (loc.indexOf(STAGING_SITE_URL_CHECK) !== -1) {
+    return ENV.STAGING
+  } else if (loc.indexOf(DEV_SITE_URL_CHECK) !== -1) {
+    return ENV.DEV
+  } else {
+    return ENV.TEST
+  }
+}
+
+const isProd = () => appEnv === ENV.PROD
+const isStaging = () => appEnv === ENV.STAGING
+const isDev = () => appEnv === ENV.DEV
+const isTesting = () => appEnv === ENV.TEST
+
 export default {
-  mockApiDelay: IS_TEST_ENV ? 0 : 350,
+  isProd,
+  isStaging,
+  isDev,
+  isTesting,
+
+  mockApiDelay: isTesting() ? 0 : 350,
   mockApiAutoLogin: false,
 
-  isProd () {
-    return appEnv === ENV.PROD
-  },
-
-  isStaging () {
-    return appEnv === ENV.STAGING
-  },
-
-  isDev () {
-    return appEnv === ENV.DEV
-  },
-
-  isTesting () {
-    return IS_TEST_ENV
-  },
-
   useMockApi () {
-    const USE_MOCK_API = IS_TEST_ENV || (ENABLE_MOCK_API && appEnv === ENV.DEV)
+    const USE_MOCK_API = isTesting() || (isDev() && ENABLE_MOCK_API)
     if (USE_MOCK_API) {
       verboseLog('INFO: Mock API Enabled')
     }
