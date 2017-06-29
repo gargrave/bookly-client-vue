@@ -2,14 +2,14 @@
   <q-drawer ref="drawer">
     <div class="list platform-delimiter">
 
-      <div class="item drawer-closer" exact="">
+      <div class="item drawer-closer drawer-title" exact="">
         <i class="item-primary">view_quilt</i>
-        <div class="item-content">
+        <div class="item-content drawer-title-text">
           Bookly
         </div>
       </div>
 
-      <div v-if="isLoggedIn">
+      <div v-if="isLoggedIn" class="drawer-links-loggedin-nav">
         <hr>
         <div class="list-label">Navigation</div>
 
@@ -29,7 +29,7 @@
       <hr>
       <div class="list-label">Account</div>
 
-      <div v-if="isLoggedIn">
+      <div v-if="isLoggedIn" class="drawer-links-loggedin-auth">
         <q-drawer-link
           icon="account_circle"
           :to="{ name: routes.auth.detail }">
@@ -37,13 +37,15 @@
         </q-drawer-link>
       </div>
 
-      <div v-else>
+      <div v-else class="drawer-links-notloggedin-login">
         <q-drawer-link
+          class="drawer-link-login"
           icon="account_circle"
           :to="{ name: routes.auth.login }">
           Log In
         </q-drawer-link>
         <q-drawer-link
+          class="drawer-link-register"
           icon="add_circle_outline"
           :to="{ name: routes.auth.register }">
           Sign Up
