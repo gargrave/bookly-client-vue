@@ -39,9 +39,9 @@ describe('TitleBar.vue', () => {
       const dropdownInEl = vm.$el.querySelector('.dropdown-logged-in')
       const dropdownNotInEl = vm.$el.querySelector('.dropdown-not-logged-in')
 
-      expect(linksEl).to.be.null
-      expect(dropdownInEl).to.be.null
-      expect(dropdownNotInEl).to.not.be.null
+      expect(linksEl).to.equal(null)
+      expect(dropdownInEl).to.equal(null)
+      expect(dropdownNotInEl).to.not.equal(null)
     })
 
     it('should display the appropriate links when logged in.', () => {
@@ -51,9 +51,9 @@ describe('TitleBar.vue', () => {
       const dropdownInEl = vm.$el.querySelector('.dropdown-logged-in')
       const dropdownNotInEl = vm.$el.querySelector('.dropdown-not-logged-in')
 
-      expect(linksEl).to.not.be.null
-      expect(dropdownInEl).to.not.be.null
-      expect(dropdownNotInEl).to.be.null
+      expect(linksEl).to.not.equal(null)
+      expect(dropdownInEl).to.not.equal(null)
+      expect(dropdownNotInEl).to.equal(null)
     })
   })
 
@@ -63,7 +63,7 @@ describe('TitleBar.vue', () => {
       const vm = getComponent({})
       const registerLink = vm.$el.querySelector('.dropdown-not-logged-in .item-link-register')
 
-      expect(registerLink).to.not.be.null
+      expect(registerLink).to.not.equal(null)
       registerLink.click()
       expect(vm.$route.path).to.equal(localUrls.register)
     })
@@ -73,7 +73,7 @@ describe('TitleBar.vue', () => {
       const vm = getComponent({})
       const loginLink = vm.$el.querySelector('.dropdown-not-logged-in .item-link-login')
 
-      expect(loginLink).to.not.be.null
+      expect(loginLink).to.not.equal(null)
       loginLink.click()
       expect(vm.$route.path).to.equal(localUrls.login)
     })
@@ -83,7 +83,7 @@ describe('TitleBar.vue', () => {
       const vm = getComponent({})
       const booksLink = vm.$el.querySelector('.toolbar-links .toolbar-link-books')
 
-      expect(booksLink).to.not.be.null
+      expect(booksLink).to.not.equal(null)
       booksLink.click()
       expect(vm.$route.path).to.equal(localUrls.booksList)
     })
@@ -93,7 +93,7 @@ describe('TitleBar.vue', () => {
       const vm = getComponent({})
       const booksLink = vm.$el.querySelector('.toolbar-links .toolbar-link-authors')
 
-      expect(booksLink).to.not.be.null
+      expect(booksLink).to.not.equal(null)
       booksLink.click()
       expect(vm.$route.path).to.equal(localUrls.authorsList)
     })
@@ -103,7 +103,7 @@ describe('TitleBar.vue', () => {
       const vm = getComponent({})
       const accountLink = vm.$el.querySelector('.dropdown-logged-in .item-link-account')
 
-      expect(accountLink).to.not.be.null
+      expect(accountLink).to.not.equal(null)
       accountLink.click()
       expect(vm.$route.path).to.equal(localUrls.account)
     })
@@ -121,7 +121,7 @@ describe('TitleBar.vue', () => {
         return Promise.resolve()
       }
 
-      expect(logoutLink).to.not.be.null
+      expect(logoutLink).to.not.equal(null)
       logoutLink.click()
       expect(logoutCalled).to.be.true
     })

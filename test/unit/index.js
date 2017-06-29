@@ -6,7 +6,7 @@ Vue.config.productionTip = false
 Function.prototype.bind = require('function-bind')
 
 // require all test files (files that ends with .spec.js)
-const testsContext = require.context('./specs', true, /\.spec$/)
+const testsContext = require.context('../../src', true, /\.spec.js$/)
 testsContext.keys().forEach(testsContext)
 
 // require all src files except main.js for coverage.
@@ -15,5 +15,5 @@ testsContext.keys().forEach(testsContext)
 const srcContext = require.context(
   '../../src',
   true,
-  /^\.\/(?!statics\/*|themes\/*|index(\.html)|main(\.js)?$)/)
+  /^\.\/(?!statics\/*|themes\/*|index(\.html)|.spec.js$|main(\.js)?$)/)
 srcContext.keys().forEach(srcContext)
