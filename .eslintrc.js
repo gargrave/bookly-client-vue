@@ -4,13 +4,15 @@ module.exports = {
     sourceType: 'module'
   },
   env: {
-    browser: true
+    browser: true,
+    mocha: true
   },
   globals: {
     'cordova': true,
     'DEV': true,
     'PROD': true,
-    '__THEME': true
+    '__THEME': true,
+    'expect': true
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: 'standard',
@@ -19,12 +21,13 @@ module.exports = {
     'html'
   ],
   // add your custom rules here
-  'rules': {
+  rules: {
     // allow paren-less arrow functions
     'arrow-parens': 0,
     'one-var': 0,
     'no-unused-vars': 1,
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'no-unused-expressions': 0
   }
 }
