@@ -11,17 +11,20 @@
     <div class="toolbar-content">
 
       <span class="toolbar-element toolbar-title">
-        <router-link to="/" style="color: white">Bookly</router-link>
+        <router-link
+          class="toolbar-title-text"
+          to="/"
+          style="color: white">
+          Bookly
+        </router-link>
       </span>
 
       <!-- toolbar links; only shown on lg sizes -->
-      <span
-        class="toolbar-links gt-sm inline"
-        v-if="isLoggedIn">
+      <span class="toolbar-links gt-sm inline" v-if="isLoggedIn">
 
         <!-- link to Books list page -->
         <router-link
-          class="toolbar-element toolbar-link"
+          class="toolbar-element toolbar-link toolbar-link-books"
           active-class="toolbar-link-active"
           :to="{ name: routes.books.list }">
           Books
@@ -29,7 +32,7 @@
 
         <!-- link to Authors list page -->
         <router-link
-          class="toolbar-element toolbar-link"
+          class="toolbar-element toolbar-link toolbar-link-authors"
           active-class="toolbar-link-active"
           :to="{ name: routes.authors.list }">
           Authors
@@ -44,30 +47,34 @@
       <q-popover ref="popover" anchor="bottom left" self="top left">
         <div class="list item-delimiter highlight">
 
-          <span v-if="isLoggedIn">
+          <span v-if="isLoggedIn" class="dropdown-logged-in">
             <!-- button to go to "my account" page -->
-            <div class="item item-link" @click="handleAccountClick">
+            <div
+              class="item item-link item-link-account"
+              @click="handleAccountClick">
               <div class="item-content">
                 My Account
               </div>
             </div>
 
             <!-- button to log out -->
-            <div class="item item-link" @click="handleLogoutClick">
+            <div
+              class="item item-link item-link-logout"
+              @click="handleLogoutClick">
               <div class="item-content">
                 Logout
               </div>
             </div>
           </span>
-          <span v-else>
+          <span v-else class="dropdown-not-logged-in">
             <!-- button to go to "login" page -->
-            <div class="item item-link" @click="handleLoginClick">
+            <div class="item item-link item-link-login" @click="handleLoginClick">
               <div class="item-content">
                 Log In
               </div>
             </div>
             <!-- button to go to "register" page -->
-            <div class="item item-link" @click="handleRegisterClick">
+            <div class="item item-link item-link-register" @click="handleRegisterClick">
               <div class="item-content">
                 Sign Up
               </div>
@@ -121,13 +128,12 @@ export default {
       this.working = true
       Loading.show({ message: 'Logging out...' })
 
-      this.logout()
-        .then(() => {
-          Toast.create.info('Logged out!')
-          this.$router.push(localUrls.login)
-          this.working = false
-          Loading.hide()
-        })
+      this.logout().then(() => {
+        Toast.create.info('Logged out!')
+        this.$router.push(localUrls.login)
+        this.working = false
+        Loading.hide()
+      })
     },
 
     ...mapActions([
