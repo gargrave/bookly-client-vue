@@ -59,7 +59,7 @@ describe('TitleBar.vue', () => {
 
   describe('- Interactivity', () => {
     it('should navigate to the Register page when link is clicked.', () => {
-      store.commit(USER.LOGOUT, 'fakeAuthToken')
+      store.commit(USER.LOGOUT)
       const vm = getComponent({})
       const registerLink = vm.$el.querySelector('.dropdown-not-logged-in .item-link-register')
 
@@ -69,7 +69,7 @@ describe('TitleBar.vue', () => {
     })
 
     it('should navigate to the Register page when link is clicked.', () => {
-      store.commit(USER.LOGOUT, 'fakeAuthToken')
+      store.commit(USER.LOGOUT)
       const vm = getComponent({})
       const loginLink = vm.$el.querySelector('.dropdown-not-logged-in .item-link-login')
 
