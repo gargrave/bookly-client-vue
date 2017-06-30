@@ -165,15 +165,15 @@ export default {
     })
   },
 
-  verifyAccount ({ commit }, token) {
-    return new Promise((resolve, reject) => {
+  async verifyAccount ({ commit }, token) {
+    try {
       const request = apiHelper.axPost(apiUrls.verify, { token })
-
-      axios(request)
-        .then(res => {
-          resolve(res.data.verified)
-        }, err => { reject(err) })
-    })
+      const res = await axios(request)
+      commit(USER.VERIFY_SUCCESS)
+      return res.data
+    } catch (err) {
+      throw parseError(err)
+    }
   },
 
   requestNewVerifyLink ({ commit }, payload) {

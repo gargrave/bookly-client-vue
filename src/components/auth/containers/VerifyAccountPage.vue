@@ -69,7 +69,7 @@ export default {
       this.enterWorkingState()
       this.verifyAccount(token).then(res => {
         this.exitWorkingState()
-        if (res === true) {
+        if (res.verified === true) {
           this.successfullyVerified = true
         }
       }, () => {

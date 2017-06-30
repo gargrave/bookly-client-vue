@@ -71,6 +71,10 @@ export default {
       if (!env.isTesting()) {
         localStorage.clear()
       }
+    },
+
+    [USER.VERIFY_SUCCESS] (state) {
+      state.user.verified = true
     }
   },
 
