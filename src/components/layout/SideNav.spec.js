@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Quasar from 'quasar'
 
+import { localUrls } from 'src/globals/urls'
 import store from 'src/store/store'
 import { USER } from 'src/store/mutation-types'
 import { routes } from 'src/router'
@@ -58,6 +59,28 @@ describe('SideNav.vue', () => {
       expect(authLinksEl).to.not.equal(null)
       expect(navLinksEl).to.not.equal(null)
       expect(loginLinksEl).to.equal(null)
+    })
+  })
+
+  describe('- Interactivity', () => {
+    it('should navigate to the Login page when link is clicked.', () => {
+      store.commit(USER.LOGOUT)
+      const vm = getComponent({})
+      const link = vm.$el.querySelector('.drawer-links-notloggedin-login .drawer-link-login')
+
+      expect(link).to.not.equal(null)
+      link.click()
+      expect(vm.$route.path).to.equal(localUrls.login)
+    })
+
+    it('should navigate to the Register page when link is clicked.', () => {
+      store.commit(USER.LOGOUT)
+      const vm = getComponent({})
+      const link = vm.$el.querySelector('.drawer-links-notloggedin-login .drawer-link-register')
+
+      expect(link).to.not.equal(null)
+      link.click()
+      expect(vm.$route.path).to.equal(localUrls.register)
     })
   })
 })

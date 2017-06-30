@@ -38,19 +38,26 @@
       </div>
 
       <div v-else class="drawer-links-notloggedin-login">
-        <q-drawer-link
-          class="drawer-link-login"
-          icon="account_circle"
+
+        <!-- link to "register" page -->
+        <router-link
+          class="item item-link drawer-closer drawer-link drawer-link-login"
+          active-class="router-link-active"
           :to="{ name: routes.auth.login }">
-          Log In
-        </q-drawer-link>
-        <q-drawer-link
-          class="drawer-link-register"
-          icon="add_circle_outline"
+          <i class="item-primary">account_circle</i>
+          <div class="item-content">Log In</div>
+        </router-link>
+
+        <!-- link to "register" page -->
+        <router-link
+          class="item item-link drawer-closer drawer-link drawer-link-register"
+          active-class="router-link-active"
           :to="{ name: routes.auth.register }">
-          Sign Up
-        </q-drawer-link>
-      </div>
+          <i class="item-primary">add_circle_outline</i>
+          <div class="item-content">Sign Up</div>
+        </router-link>
+
+      </div><!-- /drawer-links-notloggedin-login -->
 
     </div>
   </q-drawer>
