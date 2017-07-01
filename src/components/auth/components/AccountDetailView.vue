@@ -1,5 +1,6 @@
 <template>
   <div class="card-content">
+    <p>Name: {{ fullName }}</p>
     <p><strong>Email:</strong> {{ userData.email }} </p>
     <hr>
     <p><strong>Member since:</strong> {{ createdDate }} </p>
@@ -25,11 +26,18 @@ import dateHelper from '../../../utils/dateHelper'
 
 export default {
   props: {
-    userData: { type: Object, required: true },
-    profile: { type: Object, required: true }
+    userData: { type: Object, required: true }
   },
 
   computed: {
+    profile () {
+      return this.userData.profile
+    },
+
+    fullName () {
+      return `${this.userData.profile.firstName} ${this.userData.profile.lastName}`
+    },
+
     createdDate () {
       return dateHelper.cleanDate(this.userData.createdAt)
     },

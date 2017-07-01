@@ -24,7 +24,6 @@
 
           <app-account-detail-view
             :userData="userData"
-            :profile="{}"
             @editClicked="onEditClick"
             @logoutClicked="onLogoutClick">
           </app-account-detail-view>
