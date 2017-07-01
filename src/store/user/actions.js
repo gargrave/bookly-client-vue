@@ -172,6 +172,11 @@ export default {
     })
   },
 
+  /**
+   * Sends a request to the server to email a "password reset" email.
+   * The payload should look like:
+   *    - email - The user's registered email address
+   */
   async requestPasswordReset ({ commit }, payload) {
     try {
       const request = apiHelper.axPost(apiUrls.pwResetRequest, payload)
@@ -181,6 +186,12 @@ export default {
     }
   },
 
+  /**
+   * Submits a request to the server to actually process a password update.
+   * The payload should look like:
+   *    - password - The first copy of the password
+   *    - passwordConfirm - The second copy of the password (must match)
+   */
   async submitPasswordReset ({ commit }, payload) {
     try {
       const request = apiHelper.axPost(apiUrls.pwResetConfirm, payload)
