@@ -8,11 +8,12 @@
             Verify Your Account
           </div><!-- /card-title -->
 
-          <app-account-verify-notice
+          <app-verify-notice
             :email="userData.email"
             :newLinkRequested="newLinkRequested"
             :handleNewVerificationRequest="handleNewVerificationRequest">
-          </app-account-verify-notice>
+          </app-verify-notice>
+
         </div><!-- /card -->
       </div><!-- /row -->
 
@@ -22,11 +23,24 @@
             My Profile
           </div><!-- /card-title -->
 
-          <app-account-detail-view
-            :userData="userData"
+          <app-edit-view
+            v-if="editing"
+            :working="working"
+            :apiError="apiError"
+            :profile="model"
+            :errors="errors"
+            :handleInput="handleInput"
+            @onFormSubmitted="onFormSubmitted"
+            @onFormCancelled="onFormCancelled">
+          </app-edit-view>
+
+          <app-detail-view
+            v-else
+            :user="userData"
             @editClicked="onEditClick"
             @logoutClicked="onLogoutClick">
-          </app-account-detail-view>
+          </app-detail-view>
+
         </div><!-- /card -->
       </div><!-- /row -->
 
@@ -37,47 +51,46 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { Loading, Toast } from 'quasar'
+import { cloneDeep } from 'lodash'
 
 import { localUrls } from '../../../globals/urls'
+import ProfileModel from '../../../models/profile'
 
-import AccountDetailView from '../components/AccountDetailView'
+import ContainerMixin from '../../mixins/ContainerMixin'
+import DetailViewMixin from '../../mixins/DetailViewMixin'
+import ProfileDetailView from '../components/ProfileDetailView'
+import ProfileEditView from '../components/ProfileEditView'
 import AccountVerifyNotice from '../components/AccountVerifyNotice'
 
 export default {
+  mixins: [
+    ContainerMixin,
+    DetailViewMixin
+  ],
+
   components: {
-    appAccountDetailView: AccountDetailView,
-    appAccountVerifyNotice: AccountVerifyNotice
+    appDetailView: ProfileDetailView,
+    appEditView: ProfileEditView,
+    appVerifyNotice: AccountVerifyNotice
   },
 
-  data () {
-    return {
-      initializing: true,
-      // whether any operations are currently running
-      working: false,
-      // error messages returned from API (e.g. invalid data)
-      apiError: '',
-      // whether we are in editing or viewing mode
-      editing: false,
-      // whether the user has clicked the 'request new link' button
-      newLinkRequested: false
-    }
-  },
+  data: () => ({
+    config: {
+      modelName: 'Profile',
+      listRoute: localUrls.login
+    },
+    // whether the user has clicked the 'request new link' button
+    newLinkRequested: false
+  }),
 
   computed: {
     ...mapGetters([
-      'userData',
-      'profile'
+      'userData'
     ])
   },
 
   methods: {
-    /**
-     * Callback for clicking the 'edit' button; simply change to 'editing' state.
-     */
-    onEditClick () {
-      // this.editing = true
-      Toast.create.info('Sorry, not implemented yet!')
-    },
+    getBaseModel: () => ProfileModel,
 
     /**
      * Callback for clicking the 'logout' button; simply logout.
@@ -86,13 +99,12 @@ export default {
       this.working = true
       Loading.show({ message: 'Logging out...' })
 
-      this.logout()
-        .then(() => {
-          Toast.create.info('Logged out!')
-          this.$router.push(localUrls.login)
-          this.working = false
-          Loading.hide()
-        })
+      this.logout().then(() => {
+        Toast.create.info('Logged out!')
+        this.$router.push(localUrls.login)
+        this.working = false
+        Loading.hide()
+      })
     },
 
     handleNewVerificationRequest () {
@@ -106,6 +118,34 @@ export default {
       }
     },
 
+    /** Attempts to a Profile UPDATE request to the API. */
+    onFormSubmitted (value, event) {
+      console.log('*** TODO: implement AccountDetailPage.onFormSubmitted')
+      console.log('*** TODO: need a new validation definition')
+      console.log(`${this.model.firstName} ${this.model.lastName}`)
+      // const author = AuthorModel.toAPI(this.model)
+      // const hasChanges = !areEqual(author, this.originalModel)
+      // const { errors, valid } = validate(author)
+
+      // if (valid && hasChanges) {
+      //   this.working = true
+      //   this.apiError = ''
+      //   Loading.show({ message: 'Saving Author...' })
+
+      //   this.updateAuthor(author)
+      //     .then(() => {
+      //       toasts.updateConfirm('Author')
+      //       this.$router.push(localUrls.authorsList)
+      //       this.exitWorkingState()
+      //     }, err => { this.onError(err) })
+      // } else {
+      //   if (!hasChanges) {
+      //     toasts.noChanges()
+      //   }
+      //   this.errors = errors
+      // }
+    },
+
     ...mapActions([
       'checkForStoredLogin',
       'logout',
@@ -113,22 +153,17 @@ export default {
     ])
   },
 
-  created () {
-    // redirect to login page if not logged in
-    this.working = true
-    Loading.show({ message: 'Loading...' })
-
-    this.checkForStoredLogin()
-      .then(() => {
-        this.working = false
-        this.initializing = false
-        Loading.hide()
-      }, () => {
-        this.$router.push(localUrls.login)
-        this.working = false
-        this.initializing = false
-        Loading.hide()
-      })
+  async created () {
+    this.enterWorkingState()
+    try {
+      await this.checkForStoredLogin()
+      this.model = cloneDeep(this.userData.profile)
+      this.originalModel = cloneDeep(this.userData.profile)
+      this.exitWorkingState()
+    } catch (err) {
+      this.$router.push(localUrls.login)
+      this.exitWorkingState()
+    }
   }
 }
 </script>
