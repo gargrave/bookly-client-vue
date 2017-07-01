@@ -50,7 +50,6 @@ export default {
   logout ({ commit }) {
     return new Promise((resolve, reject) => {
       commit(USER.LOGOUT)
-      // commit(PROFILE.LOGOUT)
       commit(AUTHORS.CLEAR_ALL)
       commit(BOOKS.CLEAR_ALL)
       resolve()
@@ -95,39 +94,21 @@ export default {
    * If the attempt is successful, the returned data is committed to localStorage.
    */
   loadUserDataFromToken ({ dispatch, commit }, authToken) {
-    // GET request to User API endpoint
-    function userReq () {
-      const request = apiHelper.axGet(apiUrls.users, authToken)
-      return axios(request)
-    }
-
-    // GET request to Profile API endpoint
-    // function profileReq () {
-    //   const request = apiHelper.axGet(apiUrls.profiles, authToken)
-    //   return axios(request)
-    // }
-
     return new Promise((resolve, reject) => {
+      const request = apiHelper.axGet(apiUrls.users, authToken)
       commit(USER.AJAX_BEGIN)
-      // commit(PROFILE.AJAX_BEGIN)
 
-      // axios.all([userReq(), profileReq()])
-      axios.all([userReq()])
+      axios(request)
         .then(res => {
-          const userData = res[0].data
-          // const profile = res[1].data
+          const userData = res.data
 
-          // if (userData.id && profile.id) {
           if (userData.id) {
             commit(USER.LOGIN, authToken)
             commit(USER.FETCH_SUCCESS, userData)
-            // commit(PROFILE.FETCH_SUCCESS, profile)
             commit(USER.AJAX_END)
-            // commit(PROFILE.AJAX_END)
             resolve()
           } else {
             commit(USER.AJAX_END)
-            // commit(PROFILE.AJAX_END)
             return dispatch('logout')
           }
         })
@@ -135,7 +116,6 @@ export default {
           // if error, reject with error message
           dispatch('logout')
           commit(USER.AJAX_END)
-          // commit(PROFILE.AJAX_END)
           reject(parseError(err))
         })
     })
