@@ -6,7 +6,13 @@ export default {
       createdAt: '',
       updatedAt: '',
       lastLogin: '',
-      verified: undefined
+      verified: undefined,
+      profile: {
+        firstName: '',
+        lastName: '',
+        createdAt: '',
+        updatedAt: ''
+      }
     }
   },
 
