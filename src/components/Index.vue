@@ -103,13 +103,14 @@ export default {
     ])
   },
 
-  created () {
-    this.enterWorkingState()
-    this.checkForStoredLogin()
-      .then(
-        () => this.exitWorkingState(),
-        () => this.exitWorkingState()
-      )
+  async created () {
+    try {
+      this.enterWorkingState()
+      await this.checkForStoredLogin()
+      this.exitWorkingState()
+    } catch (err) {
+      this.exitWorkingState()
+    }
   }
 }
 </script>

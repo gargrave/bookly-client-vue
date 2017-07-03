@@ -63,19 +63,19 @@ export default {
     ])
   },
 
-  created () {
+  async created () {
     const token = this.$route.query.token
     if (token) {
-      this.enterWorkingState()
-      this.verifyAccount(token).then(res => {
+      try {
+        let result = await this.verifyAccount(token)
         this.exitWorkingState()
-        if (res.verified === true) {
+        if (result.verified === true) {
           this.successfullyVerified = true
         }
-      }, () => {
+      } catch (err) {
         this.exitWorkingState()
         this.successfullyVerified = false
-      })
+      }
     } else {
       this.$router.push('/')
     }

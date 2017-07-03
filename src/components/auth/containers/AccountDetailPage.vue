@@ -11,7 +11,7 @@
           <app-verify-notice
             :email="userData.email"
             :newLinkRequested="newLinkRequested"
-            :handleNewVerificationRequest="handleNewVerificationRequest">
+            :handleRequestNewVerifyLink="handleRequestNewVerifyLink">
           </app-verify-notice>
 
         </div><!-- /card -->
@@ -38,7 +38,7 @@
             v-else
             :user="userData"
             @editClicked="onEditClick"
-            @logoutClicked="onLogoutClick">
+            @logoutClicked="handleLogoutClick">
           </app-detail-view>
 
         </div><!-- /card -->
@@ -98,30 +98,38 @@ export default {
     /**
      * Callback for clicking the 'logout' button; simply logout.
      */
-    onLogoutClick () {
+    async handleLogoutClick () {
       this.working = true
       Loading.show({ message: 'Logging out...' })
 
-      this.logout().then(() => {
-        Toast.create.info('Logged out!')
-        this.$router.push(localUrls.login)
-        this.working = false
-        Loading.hide()
-      })
+      await this.logout()
+      Toast.create.info('Logged out!')
+      this.$router.push(localUrls.login)
+      this.working = false
+      Loading.hide()
     },
 
-    handleNewVerificationRequest () {
+    /**
+     * Callback for user clicking on the "request new link" button.
+     * Calls the action to request a new "verify account" email.
+     */
+    async handleRequestNewVerifyLink () {
       const payload = { email: this.userData.email }
 
-      this.newLinkRequested = true
       if (this.userData.verified === false) {
-        this.requestNewVerifyLink(payload).then(() => {
+        try {
+          await this.requestNewVerifyLink(payload)
+          this.newLinkRequested = true
           Toast.create.info('New link sent!')
-        })
+        } catch (err) {
+          Toast.create.negative('There was an error requesting the new link.')
+        }
       }
     },
 
-    /** Attempts to send a Profile UPDATE request to the API. */
+    /**
+     * Attempts to send a Profile UPDATE request to the API.
+     */
     async onFormSubmitted (value, event) {
       const profile = ProfileModel.toAPI(this.model)
       const hasChanges = !areEqual(profile, this.originalModel)

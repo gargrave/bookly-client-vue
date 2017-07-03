@@ -123,17 +123,16 @@ export default {
       this.$router.push(localUrls.login)
     },
 
-    handleLogoutClick () {
+    async handleLogoutClick () {
       this.$refs.popover.close()
       this.working = true
       Loading.show({ message: 'Logging out...' })
 
-      this.logout().then(() => {
-        Toast.create.info('Logged out!')
-        this.$router.push(localUrls.login)
-        this.working = false
-        Loading.hide()
-      })
+      await this.logout()
+      Toast.create.info('Logged out!')
+      this.$router.push(localUrls.login)
+      this.working = false
+      Loading.hide()
     },
 
     ...mapActions([

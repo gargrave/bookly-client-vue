@@ -13,10 +13,10 @@
             <app-register-form
               :working="working"
               :errors="errors"
-              :user="user"
+              :user="model"
               :handleInput="handleInput"
               @submitted="onFormSubmitted"
-              @cancelled="onFormCancelled">
+              @cancelled="onBackClick">
             </app-register-form>
           </div><!-- /card-content -->
 
@@ -28,91 +28,77 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { Loading } from 'quasar'
 
 import toasts from '../../../globals/toasts'
 import { localUrls } from '../../../globals/urls'
 import UserRegisterModel from '../../../models/userRegister'
+
 import { validate } from '../utils/userRegisterValidator'
+
+import ContainerMixin from '../../mixins/ContainerMixin'
+import ModelViewMixin from '../../mixins/ModelViewMixin'
 
 import RegisterForm from '../components/RegisterForm'
 
 export default {
+  mixins: [
+    ContainerMixin,
+    ModelViewMixin
+  ],
+
   components: {
     appRegisterForm: RegisterForm
   },
 
   data () {
     return {
-      // whether any operations are currently running
-      working: false,
-      // error messages returned from API (e.g. invalid login)
-      apiError: '',
-      // model for registration data
-      user: UserRegisterModel.empty(),
-      // form validation errors (if any)
-      errors: UserRegisterModel.empty()
+      config: {
+        listRoute: localUrls.login
+      }
     }
   },
 
   methods: {
-    handleInput (e) {
-      let key = e.target.name
-      if (key in this.user) {
-        this.user[key] = e.target.value
-      }
-    },
+    getBaseModel: () => UserRegisterModel,
 
     /**
      * Attempts to submit the current user data to the API to create a new user.
      */
-    onFormSubmitted (value, event) {
-      const user = UserRegisterModel.toAPI(this.user)
-      const { errors, valid } = validate(user)
+    async onFormSubmitted (value, event) {
+      const payload = UserRegisterModel.toAPI(this.model)
+      const { errors, valid } = validate(payload)
 
       if (valid) {
-        this.working = true
-        Loading.show({ message: 'Creating Account...' })
+        this.enterWorkingState()
 
-        this.createUser(user)
-          .then(() => {
-            toasts.createConfirm('Account')
-            this.$router.push(localUrls.account)
-            this.working = false
-            Loading.hide()
-          }, err => { this.onError(err) })
+        try {
+          await this.register(payload)
+          toasts.createConfirm('Account')
+          this.$router.push(localUrls.account)
+          this.exitWorkingState()
+        } catch (err) {
+          this.onError(err)
+        }
       } else {
         this.errors = errors
       }
     },
 
-    onFormCancelled (value, event) {
-      this.$router.push(localUrls.login)
-    },
-
-    onError (err) {
-      this.apiError = err.message || ''
-      this.working = false
-      Loading.hide()
-    },
-
     ...mapActions([
-      'checkForStoredLogin',
-      'createUser'
+      'register'
     ])
   },
 
-  created () {
-    // if we already logged in, redirect to account/profile page
-    this.working = true
-    Loading.show({ message: 'Loading...' })
-
-    this.checkForStoredLogin()
-      .then(() => {
-        this.$router.push(localUrls.account)
-        this.working = false
-        Loading.hide()
-      }, err => { this.onError(err) })
+  async created () {
+    try {
+      this.enterWorkingState()
+      await this.checkForStoredLogin()
+      // if we already logged in, redirect to account/profile page
+      this.$router.push(localUrls.account)
+    } catch (err) {
+      // if not logged in, we are in the right place!
+      this.exitWorkingState()
+    }
   }
 }
 </script>

@@ -50,14 +50,14 @@ export default {
     ])
   },
 
-  created () {
-    this.enterWorkingState()
-    this.checkForStoredLogin()
-      .then(() => {
-        this.afterCreatedLoggedIn()
-      }, () => {
-        this.afterCreatedNotLoggedIn()
-      })
+  async created () {
+    try {
+      this.enterWorkingState()
+      await this.checkForStoredLogin()
+      this.afterCreatedLoggedIn()
+    } catch (err) {
+      this.afterCreatedNotLoggedIn()
+    }
   }
 }
 </script>

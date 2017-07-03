@@ -17,7 +17,7 @@
               :userData="model"
               :handleInput="handleInput"
               @submitted="onFormSubmitted"
-              @cancelled="onFormCancelled">
+              @cancelled="onBackClick">
             </app-login-form>
 
             <!-- password reset link -->
@@ -35,92 +35,72 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { Loading } from 'quasar'
 
 import toasts from '../../../globals/toasts'
 import { localUrls, routes } from '../../../globals/urls'
 import UserLoginModel from '../../../models/userLogin'
+
 import { validate } from '../utils/userLoginValidator'
+
+import ContainerMixin from '../../mixins/ContainerMixin'
+import ModelViewMixin from '../../mixins/ModelViewMixin'
 
 import LoginForm from '../components/LoginForm'
 
 export default {
+  mixins: [
+    ContainerMixin,
+    ModelViewMixin
+  ],
+
   components: {
     appLoginForm: LoginForm
   },
 
   data: () => ({
-    initializing: true,
-    // whether any operations are currently running
-    working: false,
-    // error messages returned from API (e.g. invalid data)
-    apiError: '',
-    // model for new instance
-    model: UserLoginModel.empty(),
-    // local validation errors
-    errors: UserLoginModel.empty(),
-    routes
+    routes, // expose to template
+    config: {
+      listRoute: localUrls.register
+    }
   }),
 
   methods: {
-    handleInput (e) {
-      let key = e.target.name
-      if (key in this.model) {
-        this.model[key] = e.target.value
-      }
-    },
+    getBaseModel: () => UserLoginModel,
 
     /** Callback for 'submit' event from the form; attempt to create a new instance on the server. */
-    onFormSubmitted (value) {
+    async onFormSubmitted (value) {
       const userData = UserLoginModel.toAPI(this.model)
       const { errors, valid } = validate(userData)
       this.errors = errors
 
       if (valid) {
-        this.working = true
-        this.apiError = ''
-        Loading.show({ message: 'Logging in...' })
+        this.enterWorkingState()
 
-        this.login(userData)
-          .then(res => {
-            toasts.success('Log In')
-            this.$router.push(localUrls.booksList)
-            this.working = false
-            Loading.hide()
-          }, err => { this.onError(err) })
+        try {
+          await this.login(userData)
+          toasts.success('Log In')
+          this.$router.push(localUrls.booksList)
+          this.exitWorkingState()
+        } catch (err) {
+          this.onError(err)
+        }
       }
     },
 
-    /** Callback for 'cancelled' event from the form; simply go back to list page. */
-    onFormCancelled () {
-      this.$router.push(localUrls.register)
-    },
-
-    /** Handle any errors received from calls to the API */
-    onError (err) {
-      this.apiError = err.message || ''
-      this.working = false
-      Loading.hide()
-    },
-
     ...mapActions([
-      'checkForStoredLogin',
       'login'
     ])
   },
 
-  created () {
-    this.working = true
-    Loading.show({ message: 'Loading...' })
-
-    this.checkForStoredLogin()
-      .then(() => {
-        this.$router.push(localUrls.authorsList)
-      }, () => {
-        // if not logged in, we are in the right place!
-        this.initializing = false
-        Loading.hide()
-      })
+  async created () {
+    try {
+      this.enterWorkingState()
+      await this.checkForStoredLogin()
+      this.$router.push(localUrls.authorsList)
+    } catch (err) {
+      // if not logged in, we are in the right place!
+      this.exitWorkingState()
+    }
   }
 }
 </script>
