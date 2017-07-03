@@ -17,5 +17,15 @@ export default {
     }
 
     return payload
+  },
+
+  fromAPI (data) {
+    return {
+      id: data.id,
+      firstName: data.first_name,
+      lastName: data.last_name,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at
+    }
   }
 }
