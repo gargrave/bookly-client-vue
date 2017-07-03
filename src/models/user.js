@@ -8,6 +8,7 @@ export default {
       lastLogin: '',
       verified: undefined,
       profile: {
+        id: '',
         firstName: '',
         lastName: '',
         createdAt: '',
@@ -25,6 +26,7 @@ export default {
       lastLogin: data.last_login,
       verified: data.verified,
       profile: {
+        id: data.profile.id,
         firstName: data.profile.first_name,
         lastName: data.profile.last_name,
         createdAt: data.profile.created_at,
