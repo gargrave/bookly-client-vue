@@ -19,7 +19,7 @@ export default {
      */
     enterWorkingState () {
       this.working = true
-      this.initializing = true
+      this.apirError = ''
       Loading.show({ message: 'Working...' })
     },
 
