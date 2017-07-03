@@ -1,6 +1,9 @@
 import env from '../../globals/env'
+import ProfileModel from '../../models/profile'
 import UserModel from '../../models/user'
-import { USER } from '../mutation-types'
+
+import { PROFILE, USER } from '../mutation-types'
+
 import actions from './actions'
 // import mockActions from '../mock/user/user-actions-mock'
 
@@ -36,9 +39,6 @@ export default {
   },
 
   mutations: {
-    /* =============================================
-     = User Mutations
-     ============================================= */
     /** Staring AJAX call to the User API */
     [USER.AJAX_BEGIN] (state) {
       state.userAjaxPending = true
@@ -75,6 +75,10 @@ export default {
 
     [USER.VERIFY_SUCCESS] (state) {
       state.user.verified = true
+    },
+
+    [PROFILE.UPDATE_SUCCESS] (state, profile) {
+      state.user.profile = ProfileModel.fromAPI(profile)
     }
   },
 

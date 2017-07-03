@@ -207,5 +207,29 @@ export default {
     } catch (err) {
       throw parseError(err)
     }
+  },
+
+  /**
+   * Submits a request to the API to UPDATE a User's Profile.
+   * The payload should look like:
+   *    - id - The id of the User's Profile (note: NOT the id of the User record)
+   *    - firstName - The updated User first name
+   *    - lastName - The updated User last name
+   */
+  async updateProfile ({ dispatch, commit }, payload) {
+    try {
+      // build and send request
+      const token = await dispatch('getAuthTokenOrDie')
+      const url = `${apiUrls.profiles}${payload.id}`
+      const request = apiHelper.axPut(url, payload, token)
+      // parse request results
+      const result = await axios(request)
+      const profile = result.data
+      // update local store and return updated profile
+      commit(PROFILE.UPDATE_SUCCESS, profile)
+      return profile
+    } catch (err) {
+      throw parseError(err)
+    }
   }
 }

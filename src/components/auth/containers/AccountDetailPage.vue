@@ -53,8 +53,11 @@ import { mapActions, mapGetters } from 'vuex'
 import { Loading, Toast } from 'quasar'
 import { cloneDeep } from 'lodash'
 
+import toasts from '../../../globals/toasts'
 import { localUrls } from '../../../globals/urls'
 import ProfileModel from '../../../models/profile'
+
+import { areEqual } from '../utils/profileValidator'
 
 import ContainerMixin from '../../mixins/ContainerMixin'
 import DetailViewMixin from '../../mixins/DetailViewMixin'
@@ -118,38 +121,39 @@ export default {
       }
     },
 
-    /** Attempts to a Profile UPDATE request to the API. */
-    onFormSubmitted (value, event) {
-      console.log('*** TODO: implement AccountDetailPage.onFormSubmitted')
-      console.log('*** TODO: need a new validation definition')
-      console.log(`${this.model.firstName} ${this.model.lastName}`)
-      // const author = AuthorModel.toAPI(this.model)
-      // const hasChanges = !areEqual(author, this.originalModel)
-      // const { errors, valid } = validate(author)
+    /** Attempts to send a Profile UPDATE request to the API. */
+    async onFormSubmitted (value, event) {
+      const profile = ProfileModel.toAPI(this.model)
+      const hasChanges = !areEqual(profile, this.originalModel)
 
-      // if (valid && hasChanges) {
-      //   this.working = true
-      //   this.apiError = ''
-      //   Loading.show({ message: 'Saving Author...' })
+      if (hasChanges) {
+        this.enterWorkingState()
 
-      //   this.updateAuthor(author)
-      //     .then(() => {
-      //       toasts.updateConfirm('Author')
-      //       this.$router.push(localUrls.authorsList)
-      //       this.exitWorkingState()
-      //     }, err => { this.onError(err) })
-      // } else {
-      //   if (!hasChanges) {
-      //     toasts.noChanges()
-      //   }
-      //   this.errors = errors
-      // }
+        try {
+          await this.updateProfile(profile)
+          this.updateModels()
+          this.editing = false
+          this.exitWorkingState()
+        } catch (err) {
+          this.onError(err)
+        }
+      } else {
+        if (!hasChanges) {
+          toasts.noChanges()
+        }
+      }
+    },
+
+    updateModels () {
+      this.model = cloneDeep(this.userData.profile)
+      this.originalModel = cloneDeep(this.userData.profile)
     },
 
     ...mapActions([
       'checkForStoredLogin',
       'logout',
-      'requestNewVerifyLink'
+      'requestNewVerifyLink',
+      'updateProfile'
     ])
   },
 
@@ -157,8 +161,7 @@ export default {
     this.enterWorkingState()
     try {
       await this.checkForStoredLogin()
-      this.model = cloneDeep(this.userData.profile)
-      this.originalModel = cloneDeep(this.userData.profile)
+      this.updateModels()
       this.exitWorkingState()
     } catch (err) {
       this.$router.push(localUrls.login)
