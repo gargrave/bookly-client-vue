@@ -20,7 +20,9 @@ export const cleanErrors = {
 }
 
 export function parseError (err) {
-  if (err.response && err.response.data) {
+  if (err.message) {
+    return err
+  } else if (err.response && err.response.data) {
     return err.response.data
   }
   return { message: cleanMessages.UNKNOWN }
