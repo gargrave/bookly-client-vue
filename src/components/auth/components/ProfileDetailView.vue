@@ -1,6 +1,6 @@
 <template>
   <div class="card-content">
-    <p>Name: {{ fullName }}</p>
+    <p><strong>Name:</strong> {{ fullName }}</p>
     <p><strong>Email:</strong> {{ user.email }} </p>
     <hr>
     <p><strong>Member since:</strong> {{ createdDate }} </p>

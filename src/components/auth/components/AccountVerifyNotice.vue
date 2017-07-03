@@ -20,7 +20,7 @@ a new link.
     <button
       class="outline negative"
       :disabled="newLinkRequested"
-      @click.prevent="handleNewVerificationRequest">
+      @click.prevent="handleRequestNewVerifyLink">
       {{ newLinkButtonText }}
     </button>
 
@@ -32,7 +32,7 @@ export default {
   props: {
     email: { type: String, required: true },
     newLinkRequested: { type: Boolean, required: true },
-    handleNewVerificationRequest: { type: Function, required: true }
+    handleRequestNewVerifyLink: { type: Function, required: true }
   },
 
   computed: {
