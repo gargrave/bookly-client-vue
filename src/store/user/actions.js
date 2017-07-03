@@ -3,9 +3,17 @@ import axios from 'axios'
 import { apiUrls } from '../../globals/urls'
 import { parseError, cleanErrors } from '../../globals/errors'
 import apiHelper from '../../utils/apiHelper'
-import { AUTHORS, BOOKS, USER } from '../mutation-types'
+import { AUTHORS, BOOKS, PROFILE, USER } from '../mutation-types'
 
 export default {
+  async getAuthTokenOrDie ({ getters }) {
+    const authToken = getters.authToken
+    if (!authToken) {
+      throw cleanErrors.INVALID_TOKEN
+    }
+    return authToken
+  },
+
   /**
    * Attempts to login the user with the provided details.
    *
