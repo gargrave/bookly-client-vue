@@ -1,6 +1,8 @@
 // import env from '../../globals/env'
 import AuthorModel from '../../models/author'
+
 import { AUTHORS } from '../mutation-types'
+
 import actions from './actions'
 // import mockActions from './actions-mock'
 
@@ -13,22 +15,19 @@ function sortAuthors (authors) {
 export default {
   state: {
     authorsAjaxPending: false,
+    authorsPagination: {},
     authors: []
   },
 
   getters: {
-    authorsAjaxPending (state) {
-      return state.authorsAjaxPending
-    },
-
-    /** Returns the list of Authors sorted alphabetically */
-    authors (state) {
-      return state.authors
-    }
+    authorsAjaxPending: (state) => state.authorsAjaxPending,
+    authorsPagination: (state) => state.authorsPagination,
+    authors: (state) => state.authors
   },
 
   mutations: {
-    [AUTHORS.CLEAR_ALL] (state, authors) {
+    [AUTHORS.CLEAR_ALL] (state) {
+      state.authorsPagination = {}
       state.authors = []
     },
 
@@ -43,12 +42,17 @@ export default {
       state.authorsAjaxPending = false
     },
 
-    [AUTHORS.FETCH_SUCCESS] (state, authors) {
+    [AUTHORS.FETCH_SUCCESS] (state, res) {
+      const authors = res.results
+      const pagination = res.meta
+
       state.authors = []
       for (let author of authors) {
         state.authors.push(AuthorModel.fromAPI(author))
       }
       sortAuthors(state.authors)
+
+      state.authorsPagination = pagination
     },
 
     /* =============================================
