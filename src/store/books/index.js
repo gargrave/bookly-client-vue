@@ -1,7 +1,10 @@
 // import env from '../../globals/env'
 import BookModel from '../../models/book'
+
 import { AUTHORS, BOOKS } from '../mutation-types'
+
 import actions from './actions'
+
 // import mockActions from './actions-mock'
 
 function sortBooks (books) {
@@ -13,18 +16,14 @@ function sortBooks (books) {
 export default {
   state: {
     booksAjaxPending: false,
+    booksPagination: {},
     books: []
   },
 
   getters: {
-    booksAjaxPending (state) {
-      return state.booksAjaxPending
-    },
-
-    /** Returns the list of Books sorted alphabetically */
-    books (state) {
-      return state.books
-    }
+    booksAjaxPending: (state) => state.booksAjaxPending,
+    booksPagination: (state) => state.booksPagination,
+    books: (state) => state.books
   },
 
   mutations: {
@@ -43,12 +42,17 @@ export default {
       state.booksAjaxPending = false
     },
 
-    [BOOKS.FETCH_SUCCESS] (state, books) {
+    [BOOKS.FETCH_SUCCESS] (state, res) {
+      const books = res.results
+      const pagination = res.meta
+
       state.books = []
       for (let book of books) {
         state.books.push(BookModel.fromAPI(book))
       }
       sortBooks(state.books)
+
+      state.booksPagination = pagination
     },
 
     /* =============================================

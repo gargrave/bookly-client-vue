@@ -24,8 +24,7 @@ export default {
 
           axios(request)
             .then(res => {
-              const books = res.data
-              commit(BOOKS.FETCH_SUCCESS, books)
+              commit(BOOKS.FETCH_SUCCESS, res.data)
               commit(BOOKS.AJAX_END)
               resolve()
             })
