@@ -20,6 +20,9 @@ let restApiRoot
 
 // named constants for local routes
 export let routes = {
+  common: {
+    about: 'about'
+  },
   auth: {
     login: 'auth-login',
     register: 'auth-register',
@@ -59,6 +62,7 @@ export let apiUrls = {
 
 // URLs for local routing (i.e. vue-router)
 export let localUrls = {
+  about: '/about',
   // auth routes
   account: '/account',
   login: '/account/login',

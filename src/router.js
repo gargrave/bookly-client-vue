@@ -18,6 +18,8 @@ import BookCreatePage from './components/books/containers/BookCreatePage'
 import BookDetailPage from './components/books/containers/BookDetailPage'
 import BooksListPage from './components/books/containers/BooksListPage'
 
+import AboutPage from './components/common/AboutPage'
+
 Vue.use(VueRouter)
 
 function load (component) {
@@ -25,6 +27,12 @@ function load (component) {
 }
 
 export const routes = [
+  {
+    path: localUrls.about,
+    component: AboutPage,
+    name: _routes.common.about
+  },
+
   /* ============================================
    = Auth routes
    ============================================= */

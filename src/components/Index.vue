@@ -4,7 +4,6 @@
       <div class="row justify-center">
 
         <div class="card index-page-card">
-
           <div class="card-title bg-primary text-white">
             Welcome to Bookly!
           </div><!-- /card-title -->
@@ -51,9 +50,7 @@
               While other apps will only let you track authors, we have cracked the technology required to
               keep track of books as well, so prepare yourself for a truly next-gen experience!
             </p>
-
             <hr>
-
             <p>Log in or sign up to get started!</p>
 
             <p>
@@ -69,7 +66,18 @@
               </button>
             </p>
           </div><!-- /card-content -->
+        </div><!-- /card -->
 
+      </div><!-- /row -->
+
+      <div class="row justify-center">
+        <div class="card index-page-card">
+          <div class="card-content">
+            <p style="margin: 0;">
+              For various details and random useful information, have a look at the
+              <router-link :to="{ name: routes.common.about }">About Page</router-link>.
+            </p>
+          </div><!-- /card-content -->
         </div><!-- /card -->
 
       </div><!-- /row -->
