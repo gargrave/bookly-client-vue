@@ -59,6 +59,18 @@
 
       </div><!-- /drawer-links-notloggedin-login -->
 
+      <hr>
+      <div class="drawer-links-about">
+        <!-- link to "about" page -->
+        <router-link
+          class="item item-link drawer-closer drawer-link drawer-link-about"
+          active-class="router-link-active"
+          :to="{ name: routes.common.about }">
+          <i class="item-primary">info_outline</i>
+          <div class="item-content">About Bookly</div>
+        </router-link>
+      </div>
+
     </div>
   </q-drawer>
 </template>
